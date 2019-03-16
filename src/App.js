@@ -1,12 +1,15 @@
 import React, { Component } from "react";
+// Third-party libs
 import ls from "local-storage";
 import uuid from "uuid/v4";
+
+// Md-bootstrap Imports
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
 import "./App.css";
 import Todos from "./components/Todos";
-
 
 class App extends Component {
   constructor(props, context) {
@@ -14,67 +17,121 @@ class App extends Component {
     console.log(uuid());
     // Fetch TodoArray from Localstorage, else store []
     this.state = {
-      todos: ls.get("TodoArray") || []
+      ongoingTodos: ls.get("ongoingTodoArray") || [],
+      completedTodos: ls.get("completedTodoArray") || []
     };
   }
 
   addTodo = title => {
-    const genId = uuid();
     const newTodo = {
       id: uuid(),
       title: title,
-      completed: false
+      completed: false,
+      createdAt: new Date(),
+      completedAt: null
     };
 
-    this.setState({ todos: [...this.state.todos, newTodo] }, () => {
-      this.saveState();
-    });
-  };
+    // Appending latest on front to avoid sorting
+    let newOngoingTodos = [newTodo, ...this.state.ongoingTodos];
 
-  deleteTodo = id => {
-    this.setState(
-      { todos: [...this.state.todos.filter(todo => todo.id !== id)] },
-      () => {
-        this.saveState();
-      }
+    // Update State and store to storage
+    this.setState({ ongoingTodos: newOngoingTodos }, () =>
+      ls.set("ongoingTodoArray", this.state.ongoingTodos)
     );
   };
 
-  // Toggle TodoItem
+  // Mark Todo as complete
   markComplete = id => {
-    this.setState(
-      {
-        todos: this.state.todos.map(todo => {
-          if (todo.id === id) {
-            todo.completed = !todo.completed;
-          }
-          return todo;
-        })
-      },
-      () => {
-        this.saveState();
-      }
+    //  Find todo and push to completed
+    let selectedTodo = this.state.ongoingTodos[
+      this.state.ongoingTodos.findIndex(todo => todo.id === id)
+    ];
+    let newCompletedTodos = [selectedTodo, ...this.state.completedTodos];
+
+    this.setState({ completedTodos: newCompletedTodos }, () =>
+      ls.set("completedTodoArray", this.state.completedTodos)
     );
+
+    // Pop from ongoing
+    this.deleteTodo(id, true);
   };
 
-  // Save state to Localstorage
-  saveState = () => {
-    ls.set("TodoArray", this.state.todos);
+  markOngoing = id => {
+    console.log("Mark ongoing", id);
+    //  Find todo and push to completed
+    let selectedTodo = this.state.completedTodos[
+      this.state.completedTodos.findIndex(todo => todo.id === id)
+    ];
+    let newOngoingTodos = [...this.state.ongoingTodos, selectedTodo];
+
+    // Sort Array,
+    newOngoingTodos.sort((a, b) => {
+      a = new Date(a.createdAt).getTime();
+      b = new Date(b.createdAt).getTime();
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
+
+    this.setState({ ongoingTodos: newOngoingTodos }, () =>
+      ls.set("ongoingTodoArray", this.state.ongoingTodos)
+    );
+
+    // Pop from ongoing
+    this.deleteTodo(id, false);
+  };
+
+  deleteTodo = (id, flag) => {
+    if (flag) {
+      this.setState(
+        {
+          ongoingTodos: [
+            ...this.state.ongoingTodos.filter(todo => todo.id !== id)
+          ]
+        },
+        () => ls.set("ongoingTodoArray", this.state.ongoingTodos)
+      );
+    } else {
+      this.setState(
+        {
+          completedTodos: [
+            ...this.state.completedTodos.filter(todo => todo.id !== id)
+          ]
+        },
+        () => ls.set("completedTodoArray", this.state.completedTodos)
+      );
+    }
   };
 
   render() {
     return (
       <div className="App">
-        {/* <TodoForm /> */}
-        <Header />
-
+        {/* <Header />
         <AddTodo addTodo={this.addTodo} />
-
         <Todos
-          todos={this.state.todos}
+          ongoingTodos={this.state.ongoingTodos}
+          completedTodos={this.state.completedTodos}
           markComplete={this.markComplete}
+          markOngoing={this.markOngoing}
           deleteTodo={this.deleteTodo}
-        />
+        /> */}
+
+        <MDBContainer>
+          <MDBRow>
+            <MDBCol>
+              <AddTodo addTodo={this.addTodo} />
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol>
+              <Todos
+                ongoingTodos={this.state.ongoingTodos}
+                completedTodos={this.state.completedTodos}
+                markComplete={this.markComplete}
+                markOngoing={this.markOngoing}
+                deleteTodo={this.deleteTodo}
+              />
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
       </div>
     );
   }
