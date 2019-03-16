@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import TodoItem from "./TodoItem";
-import CompletedItem from "./CompletedItem";
+// import CompletedItem from "./CompletedItem";
 import PropTypes from "prop-types";
+
 
 class Todos extends Component {
   ongoingView = () => {
@@ -33,7 +34,6 @@ class Todos extends Component {
     return (
       <div>
         {this.ongoingView()}
-        <h1>Completed</h1>
         {this.completedView()}
       </div>
     );

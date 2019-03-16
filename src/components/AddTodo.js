@@ -23,6 +23,9 @@ export class AddTodo extends Component {
           name="title"
           value={this.state.title}
           onChange={this.onChange}
+          outline
+          size="lg"
+          style={{backgroundColor: "white",}}
         />
         {/* <input
           type="text"

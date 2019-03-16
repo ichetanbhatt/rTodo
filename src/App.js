@@ -14,7 +14,7 @@ import Todos from "./components/Todos";
 class App extends Component {
   constructor(props, context) {
     super(props, context);
-    console.log(uuid());
+
     // Fetch TodoArray from Localstorage, else store []
     this.state = {
       ongoingTodos: ls.get("ongoingTodoArray") || [],
@@ -46,6 +46,7 @@ class App extends Component {
     let selectedTodo = this.state.ongoingTodos[
       this.state.ongoingTodos.findIndex(todo => todo.id === id)
     ];
+    selectedTodo.completed = true;
     let newCompletedTodos = [selectedTodo, ...this.state.completedTodos];
 
     this.setState({ completedTodos: newCompletedTodos }, () =>
@@ -62,6 +63,7 @@ class App extends Component {
     let selectedTodo = this.state.completedTodos[
       this.state.completedTodos.findIndex(todo => todo.id === id)
     ];
+    selectedTodo.completed = false;
     let newOngoingTodos = [...this.state.ongoingTodos, selectedTodo];
 
     // Sort Array,
@@ -101,6 +103,16 @@ class App extends Component {
     }
   };
 
+  resetTodos = () => {
+    this.setState(
+      {
+        ongoingTodos: [],
+        completedTodos: []
+      },
+      () => ls.clear()
+    );
+  };
+
   render() {
     return (
       <div className="App">
@@ -113,7 +125,7 @@ class App extends Component {
           markOngoing={this.markOngoing}
           deleteTodo={this.deleteTodo}
         /> */}
-
+        <Header resetTodos={this.resetTodos} />
         <MDBContainer>
           <MDBRow>
             <MDBCol>

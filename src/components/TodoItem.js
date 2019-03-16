@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import {
-  MDBBtn,
+  // MDBBtn,
   MDBCard,
   MDBCardBody,
-  MDBCardImage,
-  MDBCardTitle,
-  MDBCardText,
+
   MDBCol,
-  MDBInput,
   MDBRow,
-  MDBFormInline,
+  // MDBFormInline,
   MDBContainer,
   MDBIcon
 } from "mdbreact";
@@ -43,7 +40,7 @@ export class TodoItem extends Component {
   };
 
   render() {
-    const { id, title } = this.props.todoItem;
+    const { id, title, completed } = this.props.todoItem;
     const flag = this.props.flag;
 
     return (
@@ -60,12 +57,13 @@ export class TodoItem extends Component {
 
 
 
-      <MDBCard>
+      <MDBCard style={{margin: "1px"}}>
         <MDBCardBody>  
           <MDBContainer>
             <MDBRow>
               <MDBCol size="1">
                 <input
+                  checked={completed}
                   type="checkbox"
                   onChange={this.props.toggleChecklist.bind(this, id)}
                 />
