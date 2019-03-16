@@ -23,30 +23,23 @@ export class Header extends Component {
     return (
       <div>
         <MDBNavbar
-          style={{ backgroundColor: "#2EBE60", color: "#666666" }}
+          style={{ backgroundColor: "#494ca2" }}
           dark
-          expand="md"
         >
           <MDBNavbarNav left>
             <MDBNavItem>
-              <MDBFormInline waves>
-                <div className="md-form my-0">
-                  {/* <input
-                    className="form-control mr-sm-2"
-                    type="text"
-                    placeholder="Search"
-                    aria-label="Search"
-                  /> */}
-                  <MDBInput
-                    label="Search"
-                    type="text"
-                    name="search"
-                    value={this.state.search}
-                    onChange={this.onChange}
-                    outline
-                  />
-                </div>
-              </MDBFormInline>
+              <form className="form-inline my-0">
+                <input
+                  className="form-control form-control-sm mr-2 w-75"
+                  type="text"
+                  name="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={this.state.search}
+                  onChange={this.onChange}
+                />
+                <MDBIcon style={{ color: "white" }} icon="search" />
+              </form>
             </MDBNavItem>
           </MDBNavbarNav>
           <MDBNavbarNav right>

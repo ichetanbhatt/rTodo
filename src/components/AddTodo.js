@@ -6,7 +6,7 @@ export class AddTodo extends Component {
     title: ""
   };
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange = e => this.setState({ title: e.target.value });
 
   onSubmit = e => {
     e.preventDefault();
@@ -17,7 +17,7 @@ export class AddTodo extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit} autoComplete="off">
-        <MDBInput
+        {/* <MDBInput
           label="Add Todo"
           type="text"
           name="title"
@@ -25,15 +25,19 @@ export class AddTodo extends Component {
           onChange={this.onChange}
           outline
           size="lg"
-          style={{backgroundColor: "white",}}
-        />
-        {/* <input
+          style={{ backgroundColor: "white" }}
+        /> */}
+
+        <input
+          className="form-control form-control-lg my-2"
           type="text"
           name="title"
           placeholder="Add Todo.."
+          aria-label="addTodo"
           value={this.state.title}
           onChange={this.onChange}
-        /> */}
+          style={{borderRadius:"50px"}}
+        />
       </form>
     );
   }

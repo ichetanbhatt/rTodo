@@ -51,7 +51,6 @@ export class TodoItem extends Component {
 
   render() {
     const { id, title, completed } = this.props.todoItem;
-    const flag = this.props.flag;
 
     return (
       // <div style={this.getStyle()}>
@@ -83,7 +82,7 @@ export class TodoItem extends Component {
               <MDBCol size="1">
                 <span
                   className="hoverable"
-                  onClick={this.props.deleteTodo.bind(this, id, flag)}
+                  onClick={this.props.deleteTodo.bind(this, id)}
                 >
                   <MDBIcon className="hoverable" far icon="trash-alt" />
                 </span>
