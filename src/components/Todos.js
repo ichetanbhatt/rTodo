@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 
 
 class Todos extends Component {
+
+  componentWillReceiveProps(nextProps){
+    console.log("UPDATING EVERYTIME SIRE")
+  }
   ongoingView = () => {
     return this.props.ongoingTodos.map(todo => (
       <TodoItem

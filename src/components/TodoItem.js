@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import {
   // MDBBtn,
   MDBCard,
-  MDBCardBody,
-
+  MDBCardBody,  
+  MDBCardFooter,
   MDBCol,
   MDBRow,
   // MDBFormInline,
@@ -37,6 +37,16 @@ export class TodoItem extends Component {
       marginBottom: "11px",
       transition: "color 0.2s ease-out"
     };
+  };
+
+  test = (e) => {
+    e.preventDefault()
+    console.log("Recieving")
+  }
+  hashtagView = () => {
+    return this.props.todoItem.hashtags.map(hashtag => (
+      <a onClick={this.test} >{hashtag}</a>
+    ));
   };
 
   render() {
@@ -83,6 +93,12 @@ export class TodoItem extends Component {
           </MDBContainer>
 
         </MDBCardBody>
+        {/* <MDBCardFooter>
+
+          {this.hashtagView()}
+          
+
+        </MDBCardFooter> */}
       </MDBCard>
     );
   }

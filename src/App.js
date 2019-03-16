@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // Third-party libs
 import ls from "local-storage";
 import uuid from "uuid/v4";
+import * as jsSearch from "js-search";
 
 // Md-bootstrap Imports
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
@@ -22,13 +23,32 @@ class App extends Component {
     };
   }
 
+  searchTodo = keywords => {
+    var search = new jsSearch.Search("id");
+    search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
+    search.addIndex("title");
+
+    let updatedList = [
+      ...this.state.ongoingTodos,
+      ...this.state.completedTodos
+    ];
+
+    search.addDocuments(updatedList);
+
+    console.log(search.search(keywords));
+  };
+
   addTodo = title => {
+    let hashtags = title.match(/(^|\s)(#[a-z\d-]+)/gi);
+    console.log(hashtags);
+
     const newTodo = {
       id: uuid(),
       title: title,
       completed: false,
       createdAt: new Date(),
-      completedAt: null
+      completedAt: null,
+      hashtags: hashtags || []
     };
 
     // Appending latest on front to avoid sorting
@@ -125,7 +145,7 @@ class App extends Component {
           markOngoing={this.markOngoing}
           deleteTodo={this.deleteTodo}
         /> */}
-        <Header resetTodos={this.resetTodos} />
+        <Header resetTodos={this.resetTodos} searchTodo={this.searchTodo} />
         <MDBContainer>
           <MDBRow>
             <MDBCol>

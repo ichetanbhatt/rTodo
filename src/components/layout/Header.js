@@ -6,23 +6,44 @@ import {
   MDBNavItem,
   MDBFormInline,
   MDBIcon,
-  MDBBtn
+  MDBBtn,
+  MDBInput
 } from "mdbreact";
 
 export class Header extends Component {
+  state = {
+    search: ""
+  };
+  onChange = e => {
+    this.setState({ search: e.target.value }, () => {
+      this.props.searchTodo(this.state.search);
+    });
+  };
   render() {
     return (
       <div>
-        <MDBNavbar style={{backgroundColor: "#2EBE60", color: "#666666"}} dark expand="md">
+        <MDBNavbar
+          style={{ backgroundColor: "#2EBE60", color: "#666666" }}
+          dark
+          expand="md"
+        >
           <MDBNavbarNav left>
             <MDBNavItem>
               <MDBFormInline waves>
                 <div className="md-form my-0">
-                  <input
+                  {/* <input
                     className="form-control mr-sm-2"
                     type="text"
                     placeholder="Search"
                     aria-label="Search"
+                  /> */}
+                  <MDBInput
+                    label="Search"
+                    type="text"
+                    name="search"
+                    value={this.state.search}
+                    onChange={this.onChange}
+                    outline
                   />
                 </div>
               </MDBFormInline>
