@@ -75,7 +75,7 @@ export class TodoItem extends Component {
                 <input
                   checked={completed}
                   type="checkbox"
-                  onChange={this.props.toggleChecklist.bind(this, id)}
+                  onChange={this.props.toggleComplete.bind(this, id)}
                 />
                 
               </MDBCol>

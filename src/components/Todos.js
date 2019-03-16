@@ -10,11 +10,11 @@ class Todos extends Component {
     console.log("UPDATING EVERYTIME SIRE")
   }
   ongoingView = () => {
-    return this.props.ongoingTodos.map(todo => (
+    return this.props.todoArray.map(todo => (
       <TodoItem
         key={todo.id}
         todoItem={todo} // Passing TODOS object
-        toggleChecklist={this.props.markComplete} // Mark a Todo Completed
+        toggleComplete={this.props.toggleComplete} // Mark a Todo Completed
         // markOngoing={this.markOngoing}
         deleteTodo={this.props.deleteTodo} // Delete a Todo
         flag = {true}
@@ -22,23 +22,23 @@ class Todos extends Component {
     ));
   };
 
-  completedView = () => {
-    return this.props.completedTodos.map(todo => (
-      <TodoItem
-        key={todo.id}
-        todoItem={todo} // Passing TODOS object
-        toggleChecklist={this.props.markOngoing} // Mark a Todo Completed
-        // markOngoing={this.props.markOngoing}
-        deleteTodo={this.props.deleteTodo} // Delete a Todo
-        flag = {false}
-      />
-    ));
-  };
+  // completedView = () => {
+  //   return this.props.todoArray.map(todo => (
+  //     <TodoItem
+  //       key={todo.id}
+  //       todoItem={todo} // Passing TODOS object
+  //       toggleComplete={this.props.toggleComplete} // Mark a Todo Completed
+  //       // markOngoing={this.props.markOngoing}
+  //       deleteTodo={this.props.deleteTodo} // Delete a Todo
+  //       flag = {false}
+  //     />
+  //   ));
+  // };
   render() {
     return (
       <div>
         {this.ongoingView()}
-        {this.completedView()}
+        {/* {this.completedView()} */}
       </div>
     );
     // return this.props.ongoingTodos.map(todo => (
@@ -57,8 +57,9 @@ class Todos extends Component {
 
 // PropTypes
 Todos.propTypes = {
-  ongoingTodos: PropTypes.array.isRequired,
-  completedTodos: PropTypes.array.isRequired
+  todoArray: PropTypes.array.isRequired,
+  // ongoingTodos: PropTypes.array.isRequired,
+  // completedTodos: PropTypes.array.isRequired
 };
 
 export default Todos;
