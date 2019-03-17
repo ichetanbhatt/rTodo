@@ -8,7 +8,7 @@ import * as jsSearch from "js-search";
 import { MDBContainer, MDBRow, MDBCol, MDBCard } from "mdbreact";
 import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBIcon, MDBBtn } from "mdbreact";
 
-import Header from "./components/layout/Header";
+// import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
 import "./App.css";
 import Todos from "./components/Todos";
@@ -43,10 +43,18 @@ class App extends Component {
         updatedKeywords = this.state.searchKeywords;
       }
 
+      class CustomTokenizer {
+        tokenize(text) {
+          return text.split(/[^a-zа-яё#0-9\-']+/i).filter(text => text);
+        }
+      }
+
       var search = new jsSearch.Search("id");
-      search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
+      search.indexStrategy = new jsSearch.PrefixIndexStrategy();
+      search.tokenizer = new CustomTokenizer();
       search.addIndex("title");
       search.addDocuments(this.state.todoArray);
+
       let searchResult = search.search(updatedKeywords);
 
       this.setState({
@@ -194,7 +202,10 @@ class App extends Component {
       <MDBNavbar style={{ backgroundColor: "#494ca2" }} dark>
         <MDBNavbarNav left>
           <MDBNavItem>
-            <form className="form-inline my-0">
+            <form
+              onSubmit={e => e.preventDefault()}
+              className="form-inline my-0"
+            >
               <input
                 className="form-control form-control-sm mr-2 w-75"
                 type="text"

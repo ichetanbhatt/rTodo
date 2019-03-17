@@ -9,7 +9,8 @@ export class AddTodo extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    if (this.state.title === "") {
+
+    if (!this.state.title.trim().length) {
       return;
     } else {
       this.props.addTodo(this.state.title);

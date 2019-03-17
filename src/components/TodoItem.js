@@ -73,7 +73,7 @@ export class TodoItem extends Component {
             checked={completed}
             type="checkbox"
             onChange={this.props.toggleComplete.bind(this, id)}
-            style={{ position: "absolute", top: "17px", left: "10px" }}
+            style={{ position: "absolute", top: "15px", left: "10px" }}
           />
           {/* <label style={this.getStyle()}>
             {this.renderTextWithHashtags(title)}
@@ -82,7 +82,7 @@ export class TodoItem extends Component {
             <ReactHashtag
               style={this.getStyle}
               renderHashtag={hashtag => (
-                <a style={{color:"#8186d5"}} onClick={() => this.props.searchTodos(hashtag)} key={uuid()}>
+                <a style={{color:"#8186d5"}} onClick={() => this.props.searchTodos(hashtag+" ")} key={uuid()}>
                   {hashtag}
                 </a>
               )}
