@@ -21,14 +21,14 @@ export class AddTodo extends Component {
     return (
       <form onSubmit={this.onSubmit} autoComplete="off">
         <input
-          className="form-control form-control-lg my-2"
+          className="form-control form-control-md my-2"
           type="text"
           name="title"
           placeholder="Add Todo.."
           aria-label="addTodo"
           value={this.state.title}
           onChange={this.onChange}
-          style={{ borderRadius: "20px" }}
+          style={{ borderRadius: "5px" }}
         />
       </form>
     );

@@ -13,6 +13,23 @@ export class TodoItem extends Component {
     };
   };
 
+  todoStyle = () => {
+    return {
+      position: "relative",
+      padding: "12px 34px 12px 30px",
+      fontSize: "15px",
+      // borderLeft: "6px solid green",
+      // borderBottom: "1px solid #8186d5",
+      // background: this.props.todoItem.completed ? "#8186d5" : "#c6cbef",
+      color : this.props.todoItem.completed ? "#c4c4c4": "#4d4d4d",
+      textDecoration: this.props.todoItem.completed ? "line-through" : "none",
+      // fontWeight: this.props.todoItem.completed ? "350" : "400",
+      borderLeft: this.props.todoItem.completed
+        ? "6px solid #8186d5"
+        : "6px solid #c6cbef"
+    };
+  };
+
   buttonStyle = () => {
     return {
       display: "none",
@@ -30,78 +47,28 @@ export class TodoItem extends Component {
     };
   };
 
-  fetchFromHTML = e => {
-    let keyword = this.myRef.current.children;
-    console.log(keyword);
-    // this.searchTags(keyword);
-  };
-
-  searchTags = () => {
-    // Append to search
-    // this.props.searchTodos(keyword, 0);
-  };
-
-  constructor(props) {
-    super(props);
-    this.myRef = React.createRef();
-  }
-
-  renderTextWithHashtags = text => {
-    // let html = <span></a>
-    let string = text.replace(/(^|\s)(#[a-z\d-]+)/gi, word => {
-      // return '<a onClick={this.searchHashtag("' + word + '")}>' + word + "</a>";
-      return '<a id="hashtag" ref="hashtag" >' + word + "</a>";
-    });
-    console.log(string);
-    return (
-      <div
-        ref={this.myRef}
-        onClick={this.fetchFromHTML.bind(this)}
-        dangerouslySetInnerHTML={{ __html: string }}
-      />
-    );
-  };
-
   render() {
     const { id, title, completed } = this.props.todoItem;
 
     return (
-      <div
-        className="todoItem"
-        key={id}
-        // onClick={this.props.toggleComplete.bind(this, id)}
-      >
+      <div className="todoItem" key={id}>
         <span
-          style={{
-            // content:s "",
-            position: "relative",
-            // borderColor: "black",
-            // borderStyle: "solid",
-            // borderWidth: "0 2px 2px 0",
-            // top: "10px",
-            left: "16px",
-            // transform: "rotate(45deg)",
-            // height: "15px",
-            // width: "7px",
-            marginTop: "20px"
-          }}
+          // style={{
+  
+          //   position: "relative",
+          //   // borderColor: "black",
+          //   // borderStyle: "solid",
+          //   // borderWidth: "0 2px 2px 0",
+          //   // top: "10px",
+          //   left: "16px",
+          //   // transform: "rotate(45deg)",
+          //   // height: "15px",
+          //   // width: "7px",
+          //   // marginTop: "20px"
+          // }}
         />
 
-        <li
-          style={{
-            // cursor: "pointer",
-            position: "relative",
-            padding: "12px 8px 12px 40px",
-            background: "white",
-            fontSize: "18px",
-            transition: "0.2s",
-            borderBottom: "1px solid #ededed"
-            // WebkitUserSelect: "none",
-            // MozUserSelect: "none",
-            // msUserSelect: "none",
-            // userSelect: "none"
-          }}
-        >
+        <li style={this.todoStyle()}>
           <input
             checked={completed}
             type="checkbox"
@@ -111,23 +78,25 @@ export class TodoItem extends Component {
           {/* <label style={this.getStyle()}>
             {this.renderTextWithHashtags(title)}
           </label> */}
-          <p>
+          <span style={{wordBreak:"break-word"}} >
             <ReactHashtag
+              style={this.getStyle}
               renderHashtag={hashtag => (
-                <a onClick={()=> this.props.searchTodos(hashtag)} key={uuid()} >{hashtag}</a>
+                <a style={{color:"#8186d5"}} onClick={() => this.props.searchTodos(hashtag)} key={uuid()}>
+                  {hashtag}
+                </a>
               )}
-              // onHashtagClick={value => this.searchTags(value)}
             >
               {title}
             </ReactHashtag>
-          </p>
-
+          </span>
           <span
             style={{
               position: "absolute",
               right: "0",
               top: "0",
-              padding: "12px 16px 12px 16px"
+              padding: "12px 16px 12px 16px",
+              color: "black"
             }}
             onClick={this.props.deleteTodo.bind(this, id)}
           >

@@ -44,7 +44,7 @@ class App extends Component {
       }
 
       var search = new jsSearch.Search("id");
-      search.indexStrategy = new jsSearch.PrefixIndexStrategy();
+      search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
       search.addIndex("title");
       search.addDocuments(this.state.todoArray);
       let searchResult = search.search(updatedKeywords);
