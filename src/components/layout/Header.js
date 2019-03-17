@@ -1,31 +1,32 @@
 import React, { Component } from "react";
-import {
-  MDBNavbar,
-  // MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavItem,
-  MDBFormInline,
-  MDBIcon,
-  MDBBtn,
-  MDBInput
-} from "mdbreact";
+import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBIcon, MDBBtn } from "mdbreact";
+import PropTypes from "prop-types";
 
 export class Header extends Component {
   state = {
-    search: ""
+    search: this.props.searchKeywords,
+    // searchKeywords: this.props.searchKeywords
   };
+
+  // constructor(props){
+  //   super();
+  //   this.state = {
+  //     search: this.props.searchKeywords
+  //   }
+  // }
+
   onChange = e => {
     this.setState({ search: e.target.value }, () => {
-      this.props.searchTodo(this.state.search);
+      // console.log(this.state.search);
+      this.props.searchTodos(this.state.search);
     });
+    
+    this.props.searchTodos();
   };
   render() {
     return (
       <div>
-        <MDBNavbar
-          style={{ backgroundColor: "#494ca2" }}
-          dark
-        >
+        <MDBNavbar style={{ backgroundColor: "#494ca2" }} dark>
           <MDBNavbarNav left>
             <MDBNavItem>
               <form className="form-inline my-0">
@@ -60,5 +61,9 @@ export class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  searchKeywords: PropTypes.string.isRequired
+};
 
 export default Header;

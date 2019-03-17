@@ -6,6 +6,7 @@ import * as jsSearch from "js-search";
 
 // Md-bootstrap Imports
 import { MDBContainer, MDBRow, MDBCol, MDBCard } from "mdbreact";
+import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBIcon, MDBBtn } from "mdbreact";
 
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
@@ -18,18 +19,42 @@ class App extends Component {
 
     // Fetch TodoArray from Localstorage, else store []
     this.state = {
-      todoArray: ls.get("todoArray") || []
+      todoArray: ls.get("todoArray") || [],
+      searchArray: [],
+      searchKeywords: "",
+      searching: false
     };
   }
 
-  searchTodo = keywords => {
-    var search = new jsSearch.Search("id");
-    // search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
-    search.addIndex("title");
+  // Flag 1 for showing all | 0 for search
+  searchTodos = (keywords, flag) => {
+    console.log("Test");
 
-    search.addDocuments(this.state.todoArray);
+    if (this.state.searchKeywords + keywords === "") {
+      this.setState({
+        searchKeywords: this.state.searchKeywords + keywords,
+        searching: false
+      });
+    } else {
+      let updatedKeywords;
+      if (!flag) {
+        updatedKeywords = this.state.searchKeywords + keywords;
+      } else {
+        updatedKeywords = this.state.searchKeywords;
+      }
 
-    console.log(search.search(keywords));
+      var search = new jsSearch.Search("id");
+      search.indexStrategy = new jsSearch.PrefixIndexStrategy();
+      search.addIndex("title");
+      search.addDocuments(this.state.todoArray);
+      let searchResult = search.search(updatedKeywords);
+
+      this.setState({
+        searchKeywords: updatedKeywords,
+        searching: true,
+        searchArray: searchResult
+      });
+    }
   };
 
   addTodo = title => {
@@ -52,13 +77,15 @@ class App extends Component {
   };
 
   toggleComplete = id => {
-    console.log("Here");
     let selectedTodo = this.state.todoArray[
       this.state.todoArray.findIndex(todo => todo.id === id)
     ];
-
     selectedTodo.completed = !selectedTodo.completed;
 
+    this.sortArray();
+  };
+
+  sortArray = list => {
     // find todo that are ongoing
 
     let ongoingTodos = this.state.todoArray.filter(
@@ -67,7 +94,6 @@ class App extends Component {
     let completedTodos = this.state.todoArray.filter(
       todo => todo.completed === true
     );
-
     // Sort ongoing according to createdaAt
     ongoingTodos.sort((a, b) => {
       a = new Date(a.createdAt).getTime();
@@ -104,32 +130,57 @@ class App extends Component {
   resetTodos = () => {
     this.setState(
       {
-        todoArray: []
+        todoArray: [],
+        searchArray: [],
+        searchKeywords: "",
+        searching: false
       },
       () => ls.clear()
     );
   };
 
+  onChange = e => {
+    this.setState({ searchKeywords: e.target.value }, () => {
+      // console.log(this.state.search);
+      this.searchTodos(this.state.searchKeywords, 1);
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        <Header resetTodos={this.resetTodos} searchTodo={this.searchTodo} />
+        {/* <Header
+          searchKeywords={this.state.searchKeywords}
+          resetTodos={this.resetTodos}
+          searchTodos={this.searchTodos}
+        /> */}
+
+        {this.renderNavbar()}
+
+        {/* CONTAINER */}
         <MDBContainer>
           <MDBRow>
-            <MDBCol sm="2" />
-            <MDBCol sm="8">
-              <MDBRow>
+            <MDBCol sm="1" />
+            <MDBCol sm="10">
+              <MDBRow className="m-2">
                 <MDBCol>
                   <AddTodo addTodo={this.addTodo} />
                 </MDBCol>
               </MDBRow>
-              <MDBRow>
+              <MDBRow className="m-2">
                 <MDBCol>
-                  <Todos
-                    todoArray={this.state.todoArray}
-                    toggleComplete={this.toggleComplete}
-                    deleteTodo={this.deleteTodo}
-                  />
+                  <MDBCard>
+                    <Todos
+                      todoArray={
+                        this.state.searching
+                          ? this.state.searchArray
+                          : this.state.todoArray
+                      }
+                      toggleComplete={this.toggleComplete}
+                      searchTodos={this.searchTodos}
+                      deleteTodo={this.deleteTodo}
+                    />
+                  </MDBCard>
                 </MDBCol>
               </MDBRow>
             </MDBCol>
@@ -138,48 +189,41 @@ class App extends Component {
       </div>
     );
   }
+  renderNavbar = () => {
+    return (
+      <MDBNavbar style={{ backgroundColor: "#494ca2" }} dark>
+        <MDBNavbarNav left>
+          <MDBNavItem>
+            <form className="form-inline my-0">
+              <input
+                className="form-control form-control-sm mr-2 w-75"
+                type="text"
+                name="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={this.state.searchKeywords}
+                onChange={this.onChange}
+              />
+              <MDBIcon style={{ color: "white" }} icon="search" />
+            </form>
+          </MDBNavItem>
+        </MDBNavbarNav>
+        <MDBNavbarNav right>
+          <MDBNavItem>
+            <MDBBtn
+              color="danger"
+              style={{ margin: "0", padding: ".375rem .75rem" }}
+              onClick={this.resetTodos}
+            >
+              <span>
+                Reset <MDBIcon icon="trash" />
+              </span>
+            </MDBBtn>
+          </MDBNavItem>
+        </MDBNavbarNav>
+      </MDBNavbar>
+    );
+  };
 }
 
 export default App;
-
-// Mark Todo as complete
-// markComplete = id => {
-//   //  Find todo and push to completed
-//   let selectedTodo = this.state.todoArray[
-//     this.state.todoArray.findIndex(todo => todo.id === id)
-//   ];
-//   selectedTodo.completed = true;
-
-//   this.setState({ todoArray: [selectedTodo, ...this.state.todoArray] }, () =>
-//     ls.set("todoArray", this.state.todoArray)
-//   );
-
-//   // Pop from ongoing
-//   this.deleteTodo(id, true);
-// };
-
-// markOngoing = id => {
-//   console.log("Mark ongoing", id);
-//   //  Find todo and push to completed
-//   let selectedTodo = this.state.todoArray[
-//     this.state.todoArray.findIndex(todo => todo.id === id)
-//   ];
-//   selectedTodo.completed = false;
-//   let newOngoingTodos = [...this.state.todoArray, selectedTodo];
-
-//   // Sort Array,
-
-//   //  FIXXX ITTTIKHOIH@HOIHIOH@IOHI@H@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//   newOngoingTodos.sort((a, b) => {
-//     a = new Date(a.createdAt).getTime();
-//     b = new Date(b.createdAt).getTime();
-//     return a > b ? -1 : a < b ? 1 : 0;
-//   });
-
-//   this.setState({ todoArray: newOngoingTodos }, () =>
-//     ls.set("todoArray", this.state.todoArray)
-//   );
-
-//   // Pop from ongoing
-//   this.deleteTodo(id, false);
-// };

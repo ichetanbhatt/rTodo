@@ -3,25 +3,24 @@ import TodoItem from "./TodoItem";
 // import CompletedItem from "./CompletedItem";
 import PropTypes from "prop-types";
 
-
 class Todos extends Component {
-  ongoingView = () => {
+  todoItemView = () => {
     return this.props.todoArray.map(todo => (
       <TodoItem
         key={todo.id}
         todoItem={todo} // Passing TODOS object
+        searchTodos ={this.props.searchTodos}
         toggleComplete={this.props.toggleComplete} // Mark a Todo Completed
-    
         deleteTodo={this.props.deleteTodo} // Delete a Todo
-
       />
     ));
   };
   render() {
     return (
       <div>
-        {this.ongoingView()}
-        {/* {this.completedView()} */}
+        <ul style={{ margin: "0px", padding: "0", listStyleType: "none" }}>
+          {this.todoItemView()}
+        </ul>
       </div>
     );
   }
@@ -29,8 +28,7 @@ class Todos extends Component {
 
 // PropTypes
 Todos.propTypes = {
-  todoArray: PropTypes.array.isRequired,
-
+  todoArray: PropTypes.array.isRequired
 };
 
 export default Todos;
