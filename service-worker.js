@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/ichetanbhatt/rTodo/precache-manifest.4806745ee1dc52900e3e40ec93299a03.js"
+  "/rTodo/precache-manifest.2f1b1d96830a61891c0fb92bb4a1b060.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/ichetanbhatt/rTodo/index.html", {
+workbox.routing.registerNavigationRoute("/rTodo/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
