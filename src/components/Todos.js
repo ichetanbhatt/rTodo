@@ -1,23 +1,34 @@
 import React, { Component } from "react";
 import TodoItem from "./TodoItem";
+// import CompletedItem from "./CompletedItem";
 import PropTypes from "prop-types";
 
 class Todos extends Component {
-  render() {
-    return this.props.todos.map(todo => (
+  todoItemView = () => {
+    return this.props.todoArray.map(todo => (
       <TodoItem
         key={todo.id}
-        todo={todo} // Passing TODOS object
-        markComplete={this.props.markComplete} // Mark a Todo Completed
+        todoItem={todo} // Passing TODOS object
+        searchTodos ={this.props.searchTodos}
+        toggleComplete={this.props.toggleComplete} // Mark a Todo Completed
         deleteTodo={this.props.deleteTodo} // Delete a Todo
       />
     ));
+  };
+  render() {
+    return (
+      <div>
+        <ul style={{ margin: "0px", padding: "0", listStyleType: "none" }}>
+          {this.todoItemView()}
+        </ul>
+      </div>
+    );
   }
 }
 
 // PropTypes
 Todos.propTypes = {
-  todos: PropTypes.array.isRequired
+  todoArray: PropTypes.array.isRequired
 };
 
 export default Todos;
