@@ -9,7 +9,8 @@ export class TodoItem extends Component {
     super();
     this.state = {
       editMode: false,
-      editedTitle: ""
+      editedTitle: "",
+      searchTags: []
     };
   }
   componentDidMount() {
@@ -86,9 +87,14 @@ export class TodoItem extends Component {
     console.log(this.state.editedTitle);
   }
 
+  sendUpdatedTags(hashtag){
+
+    console.log(hashtag)
+
+  }
+
   render() {
     const { id, title, completed } = this.props.todoItem;
-    console.log(this.state);
 
     var viewStyle = {};
     var editStyle = {};
@@ -118,7 +124,9 @@ export class TodoItem extends Component {
                 renderHashtag={hashtag => (
                   <a
                     style={{ color: "#8186d5" }}
-                    onClick={() => this.props.searchTodos(hashtag + " ")}
+                    value={hashtag}
+                    // onClick={() => this.props.searchTodos(hashtag + " ")}
+                    onClick={this.props.updateTags.bind(this,1, hashtag)}
                     key={uuid()}
                   >
                     {hashtag}

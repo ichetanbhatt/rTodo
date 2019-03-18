@@ -14,6 +14,7 @@ class Todos extends Component {
         toggleComplete={this.props.toggleComplete} // Toggle a Todo Completed/Ongoing
         editTodo = {this.props.editTodo} // Edit Todo Items
         deleteTodo={this.props.deleteTodo} // Delete a Todo
+        updateTags = {this.props.updateTags}
       />
     ));
   };

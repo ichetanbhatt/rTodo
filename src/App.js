@@ -3,9 +3,17 @@ import React, { Component } from "react";
 import ls from "local-storage";
 import uuid from "uuid/v4";
 import * as jsSearch from "js-search";
+import TagsInput from "react-tagsinput";
+// import "react-tagsinput/react-tagsinput.css";
 
 // Md-bootstrap Imports
-import { MDBContainer, MDBRow, MDBCol, MDBCard } from "mdbreact";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  CarouselCaption
+} from "mdbreact";
 import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBIcon, MDBBtn } from "mdbreact";
 
 // import Header from "./components/layout/Header";
@@ -22,13 +30,19 @@ class App extends Component {
     this.state = {
       todoArray: ls.get("todoArray") || [],
       searchArray: [],
-      searchKeywords: "",
-      searching: false
+      // searchKeywords: "",
+      searching: false,
+
+      searchTags: []
     };
+
+    // this.handleTagsChange = this.handleTagsChange.bind(this);
   }
 
-  // Flag 1 for showing all | 0 for search
-  searchTodos = (keywords, flag) => {
+  // CREATE ONLY FOR SEARCH BAR
+
+  searchTodos = keywords => {
+    console.log(keywords);
     class CustomTokenizer {
       tokenize(text) {
         return text.split(/[\s]+/i).filter(text => text);
@@ -43,19 +57,9 @@ class App extends Component {
     } else {
       // Define search settings
       var search = new jsSearch.Search("id");
-      let updatedKeywords;
-      if (!flag) {
-        //Call from Hashtag clicks
-        updatedKeywords = this.state.searchKeywords + keywords;
-        search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
-        search.tokenizer = new CustomTokenizer();
-      } else {
-        //Call from keyword search
-        updatedKeywords = this.state.searchKeywords;
-        search.tokenizer = new CustomTokenizer();
-        search.indexStrategy = new jsSearch.PrefixIndexStrategy();
-      }
-
+      let updatedKeywords = this.state.searchKeywords;
+      search.tokenizer = new CustomTokenizer();
+      search.indexStrategy = new jsSearch.PrefixIndexStrategy();
       search.addIndex("title");
       search.addDocuments(this.state.todoArray);
 
@@ -68,6 +72,106 @@ class App extends Component {
       });
     }
   };
+
+  searchHashtags = () => {
+    let keywords = this.state.searchTags.join(" ");
+
+    if (keywords === "") {
+      this.setState({
+        // searchKeywords: "",
+        searching: false
+      });
+    } else {
+      console.log(keywords);
+      class CustomTokenizer {
+        tokenize(text) {
+          return text.split(/[\s]+/i).filter(text => text);
+        }
+      }
+
+      var search = new jsSearch.Search("id");
+      // let updatedKeywords = this.state.searchKeywords;
+      search.tokenizer = new CustomTokenizer();
+      search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
+      search.addIndex("title");
+      search.addDocuments(this.state.todoArray);
+
+      let searchResult = search.search(keywords);
+
+      this.setState({
+        // searchKeywords: updatedKeywords,
+        searching: true,
+        searchArray: searchResult
+      });
+    }
+
+    // console.log(keywords)
+
+    // if (this.state.searchKeywords + keywords === "") {
+    //   this.setState({
+    //     searchKeywords: "",
+    //     searching: false
+    //   });
+    // } else {
+    //   // Define search settings
+    //   var search = new jsSearch.Search("id");
+    //   let updatedKeywords = this.state.searchKeywords;
+    //   search.tokenizer = new CustomTokenizer();
+    //   search.indexStrategy = new jsSearch.PrefixIndexStrategy();
+    //   search.addIndex("title");
+    //   search.addDocuments(this.state.todoArray);
+
+    //   let searchResult = search.search(updatedKeywords);
+
+    //   this.setState({
+    //     searchKeywords: updatedKeywords,
+    //     searching: true,
+    //     searchArray: searchResult
+    //   });
+    // }
+  };
+
+  // Flag 1 for showing all | 0 for search
+  // searchTodos = (keywords, flag) => {
+  //   class CustomTokenizer {
+  //     tokenize(text) {
+  //       return text.split(/[\s]+/i).filter(text => text);
+  //     }
+  //   }
+
+  //   if (this.state.searchKeywords + keywords === "") {
+  //     this.setState({
+  //       searchKeywords: "",
+  //       searching: false
+  //     });
+  //   } else {
+  //     // Define search settings
+  //     var search = new jsSearch.Search("id");
+  //     let updatedKeywords;
+  //     if (!flag) {
+  //       //Call from Hashtag clicks
+  //       updatedKeywords = this.state.searchKeywords + keywords;
+  //       search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
+  //       search.tokenizer = new CustomTokenizer();
+  //     } else {
+  //       //Call from keyword search
+  //       updatedKeywords = this.state.searchKeywords;
+  //       search.tokenizer = new CustomTokenizer();
+  //       search.indexStrategy = new jsSearch.PrefixIndexStrategy();
+  //     }
+
+  //     search.addIndex("title");
+  //     search.addDocuments(this.state.todoArray);
+
+  //     let searchResult = search.search(updatedKeywords);
+
+  //     this.setState({
+  //       searchKeywords: updatedKeywords,
+  //       searching: true,
+  //       searchArray: searchResult
+  //     });
+  //   }
+  // };
 
   addTodo = title => {
     // Regex for matching #hashtags. (#hashtag#test is considered as 1 tag)
@@ -152,8 +256,8 @@ class App extends Component {
         todoArray: [...this.state.todoArray.filter(todo => todo.id !== id)]
       },
       () => {
-        ls.set("todoArray", this.state.todoArray);
-        this.updateResult();
+        // ls.set("todoArray", this.state.todoArray);
+        // this.updateResult();
       }
     );
   };
@@ -183,15 +287,38 @@ class App extends Component {
     });
   };
 
+  handleTagsChange = (flag, searchTags) => {
+    console.log("incoming tags", searchTags);
+    // console.log()
+    if (flag) {
+      let updated = [...this.state.searchTags, searchTags];
+      this.setState({ searchTags: updated }, () => {
+        console.log("state", this.state.searchTags);
+        this.searchHashtags();
+      });
+    } else {
+      this.setState({ searchTags }, () => {
+        console.log("state", this.state.searchTags);
+        this.searchHashtags();
+      });
+    }
+    // let updated = [..÷.this.state.searchTags, tags];
+
+    // console.dir(tags);
+  };
+
   render() {
+    var addStyle = {};
+    var tagStyle = {};
+
+    if (this.state.searching) {
+      addStyle.display = "none";
+    } else {
+      tagStyle.display = "none";
+    }
+
     return (
       <div className="App">
-        {/* <Header
-          searchKeywords={this.state.searchKeywords}
-          resetTodos={this.resetTodos}
-          searchTodos={this.searchTodos}
-        /> */}
-
         {this.renderNavbar()}
 
         {/* CONTAINER */}
@@ -201,7 +328,20 @@ class App extends Component {
             <MDBCol sm="10">
               <MDBRow className="m-2">
                 <MDBCol>
-                  <AddTodo addTodo={this.addTodo} />
+                  {/* ADD TODO MODE */}
+                  <div style={addStyle}>
+                    <AddTodo addTodo={this.addTodo} />
+                  </div>
+                  {/* TAG SEARCH MODE */}
+                  <div style={tagStyle}>
+                    <TagsInput
+                      value={this.state.searchTags}
+                      onChange={this.handleTagsChange.bind(this, 0)}
+                      inputProps={{
+                        placeholder: "Search"
+                      }}
+                    />
+                  </div>
                 </MDBCol>
               </MDBRow>
               <MDBRow className="m-2">
@@ -213,6 +353,7 @@ class App extends Component {
                           ? this.state.searchArray
                           : this.state.todoArray
                       }
+                      updateTags={this.handleTagsChange}
                       editTodo={this.editTodo}
                       toggleComplete={this.toggleComplete}
                       searchTodos={this.searchTodos}
@@ -232,7 +373,9 @@ class App extends Component {
       <MDBNavbar style={{ backgroundColor: "#494ca2" }} dark>
         <MDBNavbarNav left>
           <MDBNavItem>
-            <form
+
+            {/* NAVBAR SEARCH */}
+            {/* <form
               onSubmit={e => e.preventDefault()}
               className="form-inline my-0"
               autoComplete="off"
@@ -246,8 +389,8 @@ class App extends Component {
                 value={this.state.searchKeywords}
                 onChange={this.onChange}
               />
-              {/* <MDBIcon style={{ color: "white" }} icon="search" /> */}
-            </form>
+            </form> */}
+
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
