@@ -4,23 +4,33 @@ import TodoItem from "./TodoItem";
 import PropTypes from "prop-types";
 
 class Todos extends Component {
+  
   todoItemView = () => {
     return this.props.todoArray.map(todo => (
       <TodoItem
         key={todo.id}
         todoItem={todo} // Passing TODOS object
-        searchTodos ={this.props.searchTodos}
-        toggleComplete={this.props.toggleComplete} // Mark a Todo Completed
+        searchTodos={this.props.searchTodos} //Search Todos
+        toggleComplete={this.props.toggleComplete} // Toggle a Todo Completed/Ongoing
+        editTodo = {this.props.editTodo} // Edit Todo Items
         deleteTodo={this.props.deleteTodo} // Delete a Todo
+        updateTags = {this.props.updateTags}
       />
     ));
   };
+
+  ulStyle = () => {
+    return {
+      margin: "0",
+      padding: "0",
+      listStyleType: "none"
+    };
+  };
+
   render() {
     return (
       <div>
-        <ul style={{ margin: "0px", padding: "0", listStyleType: "none" }}>
-          {this.todoItemView()}
-        </ul>
+        <ul style={this.ulStyle()}>{this.todoItemView()}</ul>
       </div>
     );
   }
