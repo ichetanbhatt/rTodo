@@ -59,7 +59,7 @@ export class TodoItem extends Component {
 
   editingDone = event => {
     if (event.keyCode === 13) {
-      if (this.state.editedTitle === "") {
+      if (!this.state.editedTitle.replace(/\s/g, "").length) {
         this.props.deleteTodo(this.props.todoItem.id);
       } else {
         this.props.editTodo(
@@ -86,11 +86,7 @@ export class TodoItem extends Component {
       editedTitle: _changedText
     });
 
-    console.log(this.state.editedTitle);
-  }
-
-  sendUpdatedTags(hashtag) {
-    console.log(hashtag);
+    // console.log(this.state.editedTitle);
   }
 
   render() {
