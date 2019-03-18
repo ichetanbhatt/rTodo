@@ -12,7 +12,7 @@ import {
   MDBRow,
   MDBCol,
   MDBCard,
-  CarouselCaption
+  MDBNavbarBrand
 } from "mdbreact";
 import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBIcon, MDBBtn } from "mdbreact";
 
@@ -36,9 +36,7 @@ class App extends Component {
       searchTags: [], //For tag searching
       searching: false
     };
-
   }
-
 
   searchTodos = keywords => {
     console.log(keywords);
@@ -103,10 +101,7 @@ class App extends Component {
         searchArray: searchResult
       });
     }
-
   };
-
- 
 
   addTodo = title => {
     // Regex for matching #hashtags. (#hashtag#test is considered as 1 tag)
@@ -218,7 +213,6 @@ class App extends Component {
     );
   }
 
-
   deleteTodo = (id, status) => {
     console.log(id);
 
@@ -287,7 +281,6 @@ class App extends Component {
         this.searchHashtags();
       });
     }
-
   };
 
   render() {
@@ -354,26 +347,12 @@ class App extends Component {
   renderNavbar = () => {
     return (
       <MDBNavbar style={{ backgroundColor: "#494ca2" }} dark>
-        <MDBNavbarNav left>
-          <MDBNavItem>
-            {/* NAVBAR SEARCH */}
-            {/* <form
-              onSubmit={e => e.preventDefault()}
-              className="form-inline my-0"
-              autoComplete="off"
-            >
-              <input
-                className="form-control form-control-sm mr-2 w-75"
-                type="text"
-                name="search"
-                placeholder="Type to Search..."
-                aria-label="Search"
-                value={this.state.searchKeywords}
-                onChange={this.onChange}
-              />
-            </form> */}
-          </MDBNavItem>
-        </MDBNavbarNav>
+        <MDBNavbarBrand>
+          <span className="white-text">
+            <MDBIcon icon="check-circle" />
+            &nbsp;rTodo
+          </span>
+        </MDBNavbarBrand>
         <MDBNavbarNav right>
           <MDBNavItem>
             <MDBBtn
@@ -391,7 +370,7 @@ class App extends Component {
     );
   };
 
-   // Flag 1 for showing all | 0 for search
+  // Flag 1 for showing all | 0 for search
   // searchTodos = (keywords, flag) => {
   //   class CustomTokenizer {
   //     tokenize(text) {
