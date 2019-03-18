@@ -37,10 +37,8 @@ class App extends Component {
       searching: false
     };
 
-    // this.handleTagsChange = this.handleTagsChange.bind(this);
   }
 
-  // CREATE ONLY FOR SEARCH BAR
 
   searchTodos = keywords => {
     console.log(keywords);
@@ -106,73 +104,9 @@ class App extends Component {
       });
     }
 
-    // console.log(keywords)
-
-    // if (this.state.searchKeywords + keywords === "") {
-    //   this.setState({
-    //     searchKeywords: "",
-    //     searching: false
-    //   });
-    // } else {
-    //   // Define search settings
-    //   var search = new jsSearch.Search("id");
-    //   let updatedKeywords = this.state.searchKeywords;
-    //   search.tokenizer = new CustomTokenizer();
-    //   search.indexStrategy = new jsSearch.PrefixIndexStrategy();
-    //   search.addIndex("title");
-    //   search.addDocuments(this.state.todoArray);
-
-    //   let searchResult = search.search(updatedKeywords);
-
-    //   this.setState({
-    //     searchKeywords: updatedKeywords,
-    //     searching: true,
-    //     searchArray: searchResult
-    //   });
-    // }
   };
 
-  // Flag 1 for showing all | 0 for search
-  // searchTodos = (keywords, flag) => {
-  //   class CustomTokenizer {
-  //     tokenize(text) {
-  //       return text.split(/[\s]+/i).filter(text => text);
-  //     }
-  //   }
-
-  //   if (this.state.searchKeywords + keywords === "") {
-  //     this.setState({
-  //       searchKeywords: "",
-  //       searching: false
-  //     });
-  //   } else {
-  //     // Define search settings
-  //     var search = new jsSearch.Search("id");
-  //     let updatedKeywords;
-  //     if (!flag) {
-  //       //Call from Hashtag clicks
-  //       updatedKeywords = this.state.searchKeywords + keywords;
-  //       search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
-  //       search.tokenizer = new CustomTokenizer();
-  //     } else {
-  //       //Call from keyword search
-  //       updatedKeywords = this.state.searchKeywords;
-  //       search.tokenizer = new CustomTokenizer();
-  //       search.indexStrategy = new jsSearch.PrefixIndexStrategy();
-  //     }
-
-  //     search.addIndex("title");
-  //     search.addDocuments(this.state.todoArray);
-
-  //     let searchResult = search.search(updatedKeywords);
-
-  //     this.setState({
-  //       searchKeywords: updatedKeywords,
-  //       searching: true,
-  //       searchArray: searchResult
-  //     });
-  //   }
-  // };
+ 
 
   addTodo = title => {
     // Regex for matching #hashtags. (#hashtag#test is considered as 1 tag)
@@ -196,7 +130,6 @@ class App extends Component {
         this.updateView();
       }
     );
-    // this.updateResult();
   };
 
   editTodo = (id, title, status) => {
@@ -222,13 +155,10 @@ class App extends Component {
 
   toggleComplete = (id, status) => {
     if (status) {
-      // SEARCH COMPLETED --> MARK ONGOING
-      // FIND ELEMENT INDEX
       let index = this.state.completedTodos.findIndex(todo => todo.id === id);
 
       let selectedTodo = this.state.completedTodos[index];
       selectedTodo.completed = false;
-      // APPEND TO ONGOING
 
       this.setState(
         {
@@ -251,7 +181,6 @@ class App extends Component {
       let selectedTodo = this.state.ongoingTodos[index];
       console.log(selectedTodo);
       selectedTodo.completed = true;
-      // APPEND TO ONGOING
 
       this.setState(
         {
@@ -289,38 +218,6 @@ class App extends Component {
     );
   }
 
-  // sortArray = list => {
-  //   // find todo that are ongoing
-
-  //   let ongoingTodos = this.state.todoArray.filter(
-  //     todo => todo.completed === false
-  //   );
-  //   let completedTodos = this.state.todoArray.filter(
-  //     todo => todo.completed === true
-  //   );
-  //   // Sort ongoing according to createdaAt
-  //   ongoingTodos.sort((a, b) => {
-  //     a = new Date(a.createdAt).getTime();
-  //     b = new Date(b.createdAt).getTime();
-  //     return a > b ? -1 : a < b ? 1 : 0;
-  //   });
-
-  //   completedTodos.sort((a, b) => {
-  //     a = new Date(a.completedAt).getTime();
-  //     b = new Date(b.completedAt).getTime();
-  //     return a > b ? -1 : a < b ? 1 : 0;
-  //   });
-
-  //   this.setState(
-  //     {
-  //       todoArray: [...ongoingTodos, ...completedTodos]
-  //     },
-  //     () => {
-  //       ls.set("todoArray", this.state.todoArray);
-  //       console.log(this.state.todoArray);
-  //     }
-  //   );
-  // };
 
   deleteTodo = (id, status) => {
     console.log(id);
@@ -372,14 +269,12 @@ class App extends Component {
 
   onChange = e => {
     this.setState({ searchKeywords: e.target.value }, () => {
-      // console.log(this.state.search);
       this.searchTodos(this.state.searchKeywords, 1);
     });
   };
 
   handleTagsChange = (flag, searchTags) => {
     console.log("incoming tags", searchTags);
-    // console.log()
     if (flag) {
       let updated = [...this.state.searchTags, searchTags];
       this.setState({ searchTags: updated }, () => {
@@ -392,9 +287,7 @@ class App extends Component {
         this.searchHashtags();
       });
     }
-    // let updated = [..÷.this.state.searchTags, tags];
 
-    // console.dir(tags);
   };
 
   render() {
@@ -497,6 +390,48 @@ class App extends Component {
       </MDBNavbar>
     );
   };
+
+   // Flag 1 for showing all | 0 for search
+  // searchTodos = (keywords, flag) => {
+  //   class CustomTokenizer {
+  //     tokenize(text) {
+  //       return text.split(/[\s]+/i).filter(text => text);
+  //     }
+  //   }
+
+  //   if (this.state.searchKeywords + keywords === "") {
+  //     this.setState({
+  //       searchKeywords: "",
+  //       searching: false
+  //     });
+  //   } else {
+  //     // Define search settings
+  //     var search = new jsSearch.Search("id");
+  //     let updatedKeywords;
+  //     if (!flag) {
+  //       //Call from Hashtag clicks
+  //       updatedKeywords = this.state.searchKeywords + keywords;
+  //       search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
+  //       search.tokenizer = new CustomTokenizer();
+  //     } else {
+  //       //Call from keyword search
+  //       updatedKeywords = this.state.searchKeywords;
+  //       search.tokenizer = new CustomTokenizer();
+  //       search.indexStrategy = new jsSearch.PrefixIndexStrategy();
+  //     }
+
+  //     search.addIndex("title");
+  //     search.addDocuments(this.state.todoArray);
+
+  //     let searchResult = search.search(updatedKeywords);
+
+  //     this.setState({
+  //       searchKeywords: updatedKeywords,
+  //       searching: true,
+  //       searchArray: searchResult
+  //     });
+  //   }
+  // };
 }
 
 export default App;

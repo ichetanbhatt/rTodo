@@ -68,7 +68,7 @@ export class TodoItem extends Component {
           this.props.todoItem.completed
         );
         this.setState({
-          editMode: false,
+          editMode: false
           // editedTitle: this.props.todoItem.title
         });
       }
@@ -101,6 +101,7 @@ export class TodoItem extends Component {
 
     if (this.state.editMode) {
       viewStyle.display = "none";
+      // this.textStyle.textDecoration = "none"
     } else {
       editStyle.display = "none";
     }
@@ -147,7 +148,16 @@ export class TodoItem extends Component {
 
         {/* Editing Mode */}
         <div style={editStyle}>
-          <li style={this.todoStyle()}>
+          <li
+            style={{
+              position: "relative",
+              padding: "12px 34px 12px 30px",
+              fontSize: "15px",
+              borderLeft: this.props.todoItem.completed
+                ? "6px solid #c6cbef"
+                : "6px solid #8186d5"
+            }}
+          >
             <span>
               <MDBInput
                 outline
