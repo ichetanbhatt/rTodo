@@ -4,6 +4,8 @@ import ls from "local-storage";
 import uuid from "uuid/v4";
 import * as jsSearch from "js-search";
 import TagsInput from "react-tagsinput";
+import { CSVLink, CSVDownload } from "react-csv";
+
 // import "react-tagsinput/react-tagsinput.css";
 
 // Md-bootstrap Imports
@@ -39,7 +41,7 @@ class App extends Component {
   }
 
   searchTodos = keywords => {
-    console.log(keywords);
+    // console.log(keywords);
     class CustomTokenizer {
       tokenize(text) {
         return text.split(/[\s]+/i).filter(text => text);
@@ -79,7 +81,7 @@ class App extends Component {
         searching: false
       });
     } else {
-      console.log(keywords);
+      // console.log(keywords);
       class CustomTokenizer {
         tokenize(text) {
           return text.split(/[\s]+/i).filter(text => text);
@@ -128,7 +130,7 @@ class App extends Component {
   };
 
   editTodo = (id, title, status) => {
-    console.log(id, title, status);
+    // console.log(id, title, status);
     if (!status) {
       let selectedTodo = this.state.ongoingTodos[
         this.state.ongoingTodos.findIndex(todo => todo.id === id)
@@ -174,7 +176,7 @@ class App extends Component {
       let index = this.state.ongoingTodos.findIndex(todo => todo.id === id);
 
       let selectedTodo = this.state.ongoingTodos[index];
-      console.log(selectedTodo);
+      // console.log(selectedTodo);
       selectedTodo.completed = true;
 
       this.setState(
@@ -214,7 +216,7 @@ class App extends Component {
   }
 
   deleteTodo = (id, status) => {
-    console.log(id);
+    // console.log(id);
 
     if (status) {
       this.setState(
@@ -268,16 +270,16 @@ class App extends Component {
   };
 
   handleTagsChange = (flag, searchTags) => {
-    console.log("incoming tags", searchTags);
+    // console.log("incoming tags", searchTags);
     if (flag) {
       let updated = [...this.state.searchTags, searchTags];
       this.setState({ searchTags: updated }, () => {
-        console.log("state", this.state.searchTags);
+        // console.log("state", this.state.searchTags);
         this.searchHashtags();
       });
     } else {
       this.setState({ searchTags }, () => {
-        console.log("state", this.state.searchTags);
+        // console.log("state", this.state.searchTags);
         this.searchHashtags();
       });
     }
@@ -355,6 +357,18 @@ class App extends Component {
         </MDBNavbarBrand>
         <MDBNavbarNav right>
           <MDBNavItem>
+            <CSVLink
+              style={{
+                position: "relative",
+                top: "6px",
+                margin: "20px",
+                color: "white"
+              }}
+              data={this.state.todoArray}
+              filename={"rTodo.csv"}
+            >
+              <MDBIcon size="2x" icon="cloud-download-alt" />
+            </CSVLink>
             <MDBBtn
               color="danger"
               style={{ margin: "0", padding: ".375rem .75rem" }}

@@ -9,6 +9,7 @@
     "local-storage": "^1.4.2",
     "mdbreact": "^4.11.0",
     "react": "^16.8.4",
+    "react-csv": "^1.1.1",
     "react-dom": "^16.8.4",
     "react-hashtag": "^2.1.2",
     "react-scripts": "2.1.8",
