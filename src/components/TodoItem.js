@@ -1,108 +1,156 @@
 import React, { Component } from "react";
 import ReactHashtag from "react-hashtag";
 import PropTypes from "prop-types";
-import { MDBIcon } from "mdbreact";
+import { MDBIcon, MDBInput } from "mdbreact";
 import uuid from "uuid/v4";
 
 export class TodoItem extends Component {
-  getStyle = () => {
+  constructor() {
+    super();
+    this.state = {
+      editMode: false,
+      editedTitle: ""
+    };
+  }
+  componentDidMount() {
+    this.setState({ editedTitle: this.props.todoItem.title });
+  }
+
+  textStyle = () => {
     return {
-      // borderBottom: "1px #ccc dotted",
       textDecoration: this.props.todoItem.completed ? "line-through" : "none",
       fontWeight: this.props.todoItem.completed ? "200" : "500"
     };
   };
 
+  checkboxStyle = () => {
+    return { position: "absolute", top: "15px", left: "10px" };
+  };
   todoStyle = () => {
     return {
       position: "relative",
       padding: "12px 34px 12px 30px",
       fontSize: "15px",
-      // borderLeft: "6px solid green",
-      // borderBottom: "1px solid #8186d5",
-      // background: this.props.todoItem.completed ? "#8186d5" : "#c6cbef",
-      color : this.props.todoItem.completed ? "#c4c4c4": "#4d4d4d",
+      color: this.props.todoItem.completed ? "#c4c4c4" : "#4d4d4d",
       textDecoration: this.props.todoItem.completed ? "line-through" : "none",
-      // fontWeight: this.props.todoItem.completed ? "350" : "400",
       borderLeft: this.props.todoItem.completed
-        ? "6px solid #8186d5"
-        : "6px solid #c6cbef"
+        ? "6px solid #c6cbef"
+        : "6px solid #8186d5"
+    };
+  };
+  deleteBtnStyle = () => {
+    return {
+      position: "absolute",
+      right: "0",
+      top: "0",
+      padding: "12px 16px 12px 16px",
+      color: "black"
     };
   };
 
-  buttonStyle = () => {
-    return {
-      display: "none",
-      position: "absolute",
-      top: "0",
-      right: "10px",
-      bottom: "0",
-      width: "40px",
-      height: "40px",
-      margin: "auto 0",
-      fontSize: "30px",
-      color: "#cc9a9a",
-      marginBottom: "11px",
-      transition: "color 0.2s ease-out"
-    };
-  };
+  enableEditing(event) {
+    console.log("enabling editing");
+    this.setState({
+      editMode: true,
+      editedTitle: this.props.todoItem.title
+    });
+  }
+
+  editingDone(event) {
+    if (event.keyCode === 13) {
+      if (this.state.editedTitle === "") {
+        this.props.deleteTodo(this.props.todoItem.id);
+      }
+      this.setState(
+        {
+          editMode: false
+        },
+        () => {
+          this.props.editTodo(this.props.todoItem.id, this.state.editedTitle);
+        }
+      );
+    } else if (event.keyCode === 27) {
+      this.setState({
+        editMode: false
+      });
+    }
+    console.log("editingisdone");
+  }
+
+  editingChange(event) {
+    var _changedText = event.target.value;
+    this.setState({
+      editedTitle: _changedText
+    });
+
+    console.log(this.state.editedTitle);
+  }
 
   render() {
     const { id, title, completed } = this.props.todoItem;
+    console.log(this.state);
+
+    var viewStyle = {};
+    var editStyle = {};
+
+    if (this.state.editMode) {
+      viewStyle.display = "none";
+    } else {
+      editStyle.display = "none";
+    }
 
     return (
       <div className="todoItem" key={id}>
-        <span
-          // style={{
-  
-          //   position: "relative",
-          //   // borderColor: "black",
-          //   // borderStyle: "solid",
-          //   // borderWidth: "0 2px 2px 0",
-          //   // top: "10px",
-          //   left: "16px",
-          //   // transform: "rotate(45deg)",
-          //   // height: "15px",
-          //   // width: "7px",
-          //   // marginTop: "20px"
-          // }}
-        />
+        {/* View Mode */}
 
-        <li style={this.todoStyle()}>
-          <input
-            checked={completed}
-            type="checkbox"
-            onChange={this.props.toggleComplete.bind(this, id)}
-            style={{ position: "absolute", top: "15px", left: "10px" }}
-          />
-          {/* <label style={this.getStyle()}>
-            {this.renderTextWithHashtags(title)}
-          </label> */}
-          <span style={{wordBreak:"break-word"}} >
-            <ReactHashtag
-              style={this.getStyle}
-              renderHashtag={hashtag => (
-                <a style={{color:"#8186d5"}} onClick={() => this.props.searchTodos(hashtag+" ")} key={uuid()}>
-                  {hashtag}
-                </a>
-              )}
+        <div style={viewStyle} onDoubleClick={this.enableEditing.bind(this)}>
+          <li style={this.todoStyle()}>
+            <input
+              checked={completed}
+              type="checkbox"
+              onChange={this.props.toggleComplete.bind(this, id)}
+              style={this.checkboxStyle()}
+            />
+
+            <span style={{ wordBreak: "break-word" }}>
+              <ReactHashtag
+                style={this.textStyle()}
+                renderHashtag={hashtag => (
+                  <a
+                    style={{ color: "#8186d5" }}
+                    onClick={() => this.props.searchTodos(hashtag + " ")}
+                    key={uuid()}
+                  >
+                    {hashtag}
+                  </a>
+                )}
+              >
+                {this.state.editedTitle}
+              </ReactHashtag>
+            </span>
+            <span
+              style={this.deleteBtnStyle()}
+              onClick={this.props.deleteTodo.bind(this, id)}
             >
-              {title}
-            </ReactHashtag>
-          </span>
-          <span
-            style={{
-              position: "absolute",
-              right: "0",
-              top: "0",
-              padding: "12px 16px 12px 16px",
-              color: "black"
-            }}
-            onClick={this.props.deleteTodo.bind(this, id)}
-          >
-            <MDBIcon far icon="trash-alt" />
-          </span>
-        </li>
+              <MDBIcon far icon="trash-alt" />
+            </span>
+          </li>
+        </div>
+
+        {/* Editing Mode */}
+        <div style={editStyle}>
+          <li style={this.todoStyle()}>
+            <span>
+              <MDBInput
+                outline
+                type="textarea"
+                value={this.state.editedTitle}
+                onChange={this.editingChange.bind(this)}
+                onKeyDown={this.editingDone.bind(this)}
+              />
+            </span>
+          </li>
+        </div>
       </div>
     );
   }

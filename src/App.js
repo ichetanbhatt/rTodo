@@ -12,6 +12,7 @@ import { MDBNavbar, MDBNavbarNav, MDBNavItem, MDBIcon, MDBBtn } from "mdbreact";
 import AddTodo from "./components/AddTodo";
 import "./App.css";
 import Todos from "./components/Todos";
+import { SimpleTokenizer } from "js-search/dist/commonjs/Tokenizer/SimpleTokenizer";
 
 class App extends Component {
   constructor(props, context) {
@@ -28,30 +29,33 @@ class App extends Component {
 
   // Flag 1 for showing all | 0 for search
   searchTodos = (keywords, flag) => {
-    console.log("Test");
+    class CustomTokenizer {
+      tokenize(text) {
+        return text.split(/[\s]+/i).filter(text => text);
+      }
+    }
 
     if (this.state.searchKeywords + keywords === "") {
       this.setState({
-        searchKeywords: this.state.searchKeywords + keywords,
+        searchKeywords: "",
         searching: false
       });
     } else {
+      // Define search settings
+      var search = new jsSearch.Search("id");
       let updatedKeywords;
       if (!flag) {
+        //Call from Hashtag clicks
         updatedKeywords = this.state.searchKeywords + keywords;
+        search.indexStrategy = new jsSearch.ExactWordIndexStrategy();
+        search.tokenizer = new CustomTokenizer();
       } else {
+        //Call from keyword search
         updatedKeywords = this.state.searchKeywords;
+        search.tokenizer = new CustomTokenizer();
+        search.indexStrategy = new jsSearch.PrefixIndexStrategy();
       }
 
-      class CustomTokenizer {
-        tokenize(text) {
-          return text.split(/[^a-zа-яё#0-9\-']+/i).filter(text => text);
-        }
-      }
-
-      var search = new jsSearch.Search("id");
-      search.indexStrategy = new jsSearch.PrefixIndexStrategy();
-      search.tokenizer = new CustomTokenizer();
       search.addIndex("title");
       search.addDocuments(this.state.todoArray);
 
@@ -66,7 +70,8 @@ class App extends Component {
   };
 
   addTodo = title => {
-    let hashtags = title.match(/(^|\s)(#[a-z\d-]+)/gi);
+    // Regex for matching #hashtags. (#hashtag#test is considered as 1 tag)
+    let hashtags = title.match(/(^|\s)(#[a-z\d-#]+)/gi);
     console.log(hashtags);
 
     const newTodo = {
@@ -82,6 +87,19 @@ class App extends Component {
     this.setState({ todoArray: [newTodo, ...this.state.todoArray] }, () =>
       ls.set("todoArray", this.state.todoArray)
     );
+    this.updateResult();
+  };
+
+  editTodo = (id, title) => {
+    console.log(id, title);
+
+    let selectedTodo = this.state.todoArray[
+      this.state.todoArray.findIndex(todo => todo.id === id)
+    ];
+
+    selectedTodo.title = title;
+    ls.set("todoArray", this.state.todoArray);
+    this.updateResult();
   };
 
   toggleComplete = id => {
@@ -91,6 +109,7 @@ class App extends Component {
     selectedTodo.completed = !selectedTodo.completed;
 
     this.sortArray();
+    this.updateResult();
   };
 
   sortArray = list => {
@@ -127,11 +146,15 @@ class App extends Component {
   };
 
   deleteTodo = id => {
+    console.log(id);
     this.setState(
       {
         todoArray: [...this.state.todoArray.filter(todo => todo.id !== id)]
       },
-      () => ls.set("todoArray", this.state.todoArray)
+      () => {
+        ls.set("todoArray", this.state.todoArray);
+        this.updateResult();
+      }
     );
   };
 
@@ -145,6 +168,12 @@ class App extends Component {
       },
       () => ls.clear()
     );
+  };
+
+  updateResult = () => {
+    if (this.state.searching) {
+      this.searchTodos(this.state.searchKeywords, false);
+    }
   };
 
   onChange = e => {
@@ -184,6 +213,7 @@ class App extends Component {
                           ? this.state.searchArray
                           : this.state.todoArray
                       }
+                      editTodo={this.editTodo}
                       toggleComplete={this.toggleComplete}
                       searchTodos={this.searchTodos}
                       deleteTodo={this.deleteTodo}
@@ -205,17 +235,18 @@ class App extends Component {
             <form
               onSubmit={e => e.preventDefault()}
               className="form-inline my-0"
+              autoComplete="off"
             >
               <input
                 className="form-control form-control-sm mr-2 w-75"
                 type="text"
                 name="search"
-                placeholder="Search"
+                placeholder="Type to Search..."
                 aria-label="Search"
                 value={this.state.searchKeywords}
                 onChange={this.onChange}
               />
-              <MDBIcon style={{ color: "white" }} icon="search" />
+              {/* <MDBIcon style={{ color: "white" }} icon="search" /> */}
             </form>
           </MDBNavItem>
         </MDBNavbarNav>

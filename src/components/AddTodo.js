@@ -25,7 +25,7 @@ export class AddTodo extends Component {
           className="form-control form-control-md my-2"
           type="text"
           name="title"
-          placeholder="Add Todo.."
+          placeholder="Get things done!"
           aria-label="addTodo"
           value={this.state.title}
           onChange={this.onChange}
