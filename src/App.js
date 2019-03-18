@@ -29,11 +29,12 @@ class App extends Component {
     // Fetch TodoArray from Localstorage, else store []
     this.state = {
       todoArray: ls.get("todoArray") || [],
+      ongoingTodos: ls.get("ongoingTodos") || [],
+      completedTodos: ls.get("completedTodos") || [],
       searchArray: [],
-      // searchKeywords: "",
-      searching: false,
-
-      searchTags: []
+      // searchKeywords: "", //For keyword searching Navbar
+      searchTags: [], //For tag searching
+      searching: false
     };
 
     // this.handleTagsChange = this.handleTagsChange.bind(this);
@@ -175,8 +176,8 @@ class App extends Component {
 
   addTodo = title => {
     // Regex for matching #hashtags. (#hashtag#test is considered as 1 tag)
-    let hashtags = title.match(/(^|\s)(#[a-z\d-#]+)/gi);
-    console.log(hashtags);
+    // let hashtags = title.match(/(^|\s)(#[a-z\d-#]+)/gi);
+    // console.log(hashtags);
 
     const newTodo = {
       id: uuid(),
@@ -184,14 +185,14 @@ class App extends Component {
       completed: false,
       createdAt: new Date(),
       completedAt: null,
-      hashtags: hashtags || []
+      // hashtags: hashtags || []
     };
 
     // Update State and store to storage
     this.setState({ todoArray: [newTodo, ...this.state.todoArray] }, () =>
       ls.set("todoArray", this.state.todoArray)
     );
-    this.updateResult();
+    // this.updateResult();
   };
 
   editTodo = (id, title) => {
@@ -216,6 +217,18 @@ class App extends Component {
     this.updateResult();
   };
 
+  updateView() {
+    //
+    let test1 = [...this.state.ongoingTodos, ...this.state.completedTodos];
+
+    // UPDATE STATE AND STORAGE
+    this.setState(
+      {
+        todoArray: test1
+      },
+      () => ls.set("todoArray", this.state.todoArray)
+    );
+  }
   sortArray = list => {
     // find todo that are ongoing
 
@@ -373,7 +386,6 @@ class App extends Component {
       <MDBNavbar style={{ backgroundColor: "#494ca2" }} dark>
         <MDBNavbarNav left>
           <MDBNavItem>
-
             {/* NAVBAR SEARCH */}
             {/* <form
               onSubmit={e => e.preventDefault()}
@@ -390,7 +402,6 @@ class App extends Component {
                 onChange={this.onChange}
               />
             </form> */}
-
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
