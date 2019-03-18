@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "8654ce12a235eb0385e9",
+    "revision": "d193c95f6d8847e4f3d4",
     "url": "/rTodo/static/css/main.d5766e34.chunk.css"
   },
   {
-    "revision": "8654ce12a235eb0385e9",
-    "url": "/rTodo/static/js/main.839b2eba.chunk.js"
+    "revision": "d193c95f6d8847e4f3d4",
+    "url": "/rTodo/static/js/main.62f4ae5a.chunk.js"
   },
   {
     "revision": "1bd32c84af74648616f5",
     "url": "/rTodo/static/js/runtime~main.93102770.js"
   },
   {
-    "revision": "529e2c96aeafcb893e9d",
+    "revision": "db9ed21277b3230cd90a",
     "url": "/rTodo/static/css/2.26388103.chunk.css"
   },
   {
-    "revision": "529e2c96aeafcb893e9d",
-    "url": "/rTodo/static/js/2.facfaf05.chunk.js"
+    "revision": "db9ed21277b3230cd90a",
+    "url": "/rTodo/static/js/2.1c5bcfda.chunk.js"
   },
   {
     "revision": "65779ebcc35604a25c2ba77309c5b8af",
@@ -64,12 +64,12 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/fa-regular-400.e7e957c8.svg"
   },
   {
-    "revision": "b5596f4d339f99e3d69bc41be78db962",
-    "url": "/rTodo/static/media/fa-solid-900.b5596f4d.eot"
-  },
-  {
     "revision": "b70cea0339374107969eb53e5b1f603f",
     "url": "/rTodo/static/media/fa-solid-900.b70cea03.ttf"
+  },
+  {
+    "revision": "b5596f4d339f99e3d69bc41be78db962",
+    "url": "/rTodo/static/media/fa-solid-900.b5596f4d.eot"
   },
   {
     "revision": "80533988ff5fecd5be26557d08ce8237",
@@ -168,7 +168,7 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/Roboto-Bold.e31fcf18.ttf"
   },
   {
-    "revision": "8552e42d288c63473622fc953d6c433b",
+    "revision": "877fca38de4f4ef42d19209f8ba55d4b",
     "url": "/rTodo/index.html"
   }
 ];
