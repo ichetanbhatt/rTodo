@@ -184,37 +184,91 @@ class App extends Component {
       title: title,
       completed: false,
       createdAt: new Date(),
-      completedAt: null,
+      completedAt: null
       // hashtags: hashtags || []
     };
 
     // Update State and store to storage
-    this.setState({ todoArray: [newTodo, ...this.state.todoArray] }, () =>
-      ls.set("todoArray", this.state.todoArray)
+    this.setState(
+      { ongoingTodos: [newTodo, ...this.state.ongoingTodos] },
+      () => {
+        ls.set("ongoingTodos", this.state.ongoingTodos);
+        this.updateView();
+      }
     );
     // this.updateResult();
   };
 
-  editTodo = (id, title) => {
-    console.log(id, title);
+  editTodo = (id, title, status) => {
+    console.log(id, title, status);
+    if (!status) {
+      let selectedTodo = this.state.ongoingTodos[
+        this.state.ongoingTodos.findIndex(todo => todo.id === id)
+      ];
 
-    let selectedTodo = this.state.todoArray[
-      this.state.todoArray.findIndex(todo => todo.id === id)
-    ];
+      selectedTodo.title = title;
+      ls.set("ongoingTodos", this.state.ongoingTodos);
+      this.updateView();
+    } else {
+      let selectedTodo = this.state.completedTodos[
+        this.state.completedTodos.findIndex(todo => todo.id === id)
+      ];
+      selectedTodo.title = title;
 
-    selectedTodo.title = title;
-    ls.set("todoArray", this.state.todoArray);
-    this.updateResult();
+      ls.set("completedTodos", this.state.completedTodos);
+      this.updateView();
+    }
   };
 
-  toggleComplete = id => {
-    let selectedTodo = this.state.todoArray[
-      this.state.todoArray.findIndex(todo => todo.id === id)
-    ];
-    selectedTodo.completed = !selectedTodo.completed;
+  toggleComplete = (id, status) => {
+    if (status) {
+      // SEARCH COMPLETED --> MARK ONGOING
+      // FIND ELEMENT INDEX
+      let index = this.state.completedTodos.findIndex(todo => todo.id === id);
 
-    this.sortArray();
-    this.updateResult();
+      let selectedTodo = this.state.completedTodos[index];
+      selectedTodo.completed = false;
+      // APPEND TO ONGOING
+
+      this.setState(
+        {
+          ongoingTodos: [selectedTodo, ...this.state.ongoingTodos],
+          completedTodos: [
+            ...this.state.completedTodos.filter(
+              todo => todo.id !== selectedTodo.id
+            )
+          ]
+        },
+        () => {
+          ls.set("ongoingTodos", this.state.ongoingTodos);
+          ls.set("completedTodos", this.state.completedTodos);
+          this.updateView();
+        }
+      );
+    } else {
+      let index = this.state.ongoingTodos.findIndex(todo => todo.id === id);
+
+      let selectedTodo = this.state.ongoingTodos[index];
+      console.log(selectedTodo);
+      selectedTodo.completed = true;
+      // APPEND TO ONGOING
+
+      this.setState(
+        {
+          ongoingTodos: [
+            ...this.state.ongoingTodos.filter(
+              todo => todo.id !== selectedTodo.id
+            )
+          ],
+          completedTodos: [selectedTodo, ...this.state.completedTodos]
+        },
+        () => {
+          ls.set("ongoingTodos", this.state.ongoingTodos);
+          ls.set("completedTodos", this.state.completedTodos);
+          this.updateView();
+        }
+      );
+    }
   };
 
   updateView() {
@@ -226,71 +280,94 @@ class App extends Component {
       {
         todoArray: test1
       },
-      () => ls.set("todoArray", this.state.todoArray)
-    );
-  }
-  sortArray = list => {
-    // find todo that are ongoing
-
-    let ongoingTodos = this.state.todoArray.filter(
-      todo => todo.completed === false
-    );
-    let completedTodos = this.state.todoArray.filter(
-      todo => todo.completed === true
-    );
-    // Sort ongoing according to createdaAt
-    ongoingTodos.sort((a, b) => {
-      a = new Date(a.createdAt).getTime();
-      b = new Date(b.createdAt).getTime();
-      return a > b ? -1 : a < b ? 1 : 0;
-    });
-
-    completedTodos.sort((a, b) => {
-      a = new Date(a.completedAt).getTime();
-      b = new Date(b.completedAt).getTime();
-      return a > b ? -1 : a < b ? 1 : 0;
-    });
-
-    this.setState(
-      {
-        todoArray: [...ongoingTodos, ...completedTodos]
-      },
       () => {
         ls.set("todoArray", this.state.todoArray);
-        console.log(this.state.todoArray);
+        if (this.state.searching) {
+          this.searchHashtags();
+        }
       }
     );
-  };
+  }
 
-  deleteTodo = id => {
+  // sortArray = list => {
+  //   // find todo that are ongoing
+
+  //   let ongoingTodos = this.state.todoArray.filter(
+  //     todo => todo.completed === false
+  //   );
+  //   let completedTodos = this.state.todoArray.filter(
+  //     todo => todo.completed === true
+  //   );
+  //   // Sort ongoing according to createdaAt
+  //   ongoingTodos.sort((a, b) => {
+  //     a = new Date(a.createdAt).getTime();
+  //     b = new Date(b.createdAt).getTime();
+  //     return a > b ? -1 : a < b ? 1 : 0;
+  //   });
+
+  //   completedTodos.sort((a, b) => {
+  //     a = new Date(a.completedAt).getTime();
+  //     b = new Date(b.completedAt).getTime();
+  //     return a > b ? -1 : a < b ? 1 : 0;
+  //   });
+
+  //   this.setState(
+  //     {
+  //       todoArray: [...ongoingTodos, ...completedTodos]
+  //     },
+  //     () => {
+  //       ls.set("todoArray", this.state.todoArray);
+  //       console.log(this.state.todoArray);
+  //     }
+  //   );
+  // };
+
+  deleteTodo = (id, status) => {
     console.log(id);
-    this.setState(
-      {
-        todoArray: [...this.state.todoArray.filter(todo => todo.id !== id)]
-      },
-      () => {
-        // ls.set("todoArray", this.state.todoArray);
-        // this.updateResult();
-      }
-    );
+
+    if (status) {
+      this.setState(
+        {
+          completedTodos: [
+            ...this.state.completedTodos.filter(todo => todo.id !== id)
+          ]
+        },
+        () => {
+          ls.set("completedTodos", this.state.completedTodos);
+          this.updateView();
+        }
+      );
+    } else {
+      this.setState(
+        {
+          ongoingTodos: [
+            ...this.state.ongoingTodos.filter(todo => todo.id !== id)
+          ]
+        },
+        () => {
+          ls.set("ongoingTodos", this.state.ongoingTodos);
+          this.updateView();
+        }
+      );
+    }
   };
 
   resetTodos = () => {
     this.setState(
       {
         todoArray: [],
+        ongoingTodos: [],
+        completedTodos: [],
         searchArray: [],
+        searchTags: [],
         searchKeywords: "",
         searching: false
       },
-      () => ls.clear()
+      () => {
+        ls.clear();
+        // window.location.reload();
+      }
     );
-  };
-
-  updateResult = () => {
-    if (this.state.searching) {
-      this.searchTodos(this.state.searchKeywords, false);
-    }
   };
 
   onChange = e => {

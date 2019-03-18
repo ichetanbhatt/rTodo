@@ -50,33 +50,35 @@ export class TodoItem extends Component {
   };
 
   enableEditing(event) {
-    console.log("enabling editing");
+    // console.log("enabling editing");
     this.setState({
       editMode: true,
       editedTitle: this.props.todoItem.title
     });
   }
 
-  editingDone(event) {
+  editingDone = event => {
     if (event.keyCode === 13) {
       if (this.state.editedTitle === "") {
         this.props.deleteTodo(this.props.todoItem.id);
+      } else {
+        this.props.editTodo(
+          this.props.todoItem.id,
+          this.state.editedTitle,
+          this.props.todoItem.completed
+        );
+        this.setState({
+          editMode: false,
+          // editedTitle: this.props.todoItem.title
+        });
       }
-      this.setState(
-        {
-          editMode: false
-        },
-        () => {
-          this.props.editTodo(this.props.todoItem.id, this.state.editedTitle);
-        }
-      );
     } else if (event.keyCode === 27) {
       this.setState({
-        editMode: false
+        editMode: false,
+        editedTitle: this.props.todoItem.title
       });
     }
-    console.log("editingisdone");
-  }
+  };
 
   editingChange(event) {
     var _changedText = event.target.value;
@@ -87,10 +89,8 @@ export class TodoItem extends Component {
     console.log(this.state.editedTitle);
   }
 
-  sendUpdatedTags(hashtag){
-
-    console.log(hashtag)
-
+  sendUpdatedTags(hashtag) {
+    console.log(hashtag);
   }
 
   render() {
@@ -114,7 +114,7 @@ export class TodoItem extends Component {
             <input
               checked={completed}
               type="checkbox"
-              onChange={this.props.toggleComplete.bind(this, id)}
+              onChange={this.props.toggleComplete.bind(this, id, completed)}
               style={this.checkboxStyle()}
             />
 
@@ -126,7 +126,7 @@ export class TodoItem extends Component {
                     style={{ color: "#8186d5" }}
                     value={hashtag}
                     // onClick={() => this.props.searchTodos(hashtag + " ")}
-                    onClick={this.props.updateTags.bind(this,1, hashtag)}
+                    onClick={this.props.updateTags.bind(this, 1, hashtag)}
                     key={uuid()}
                   >
                     {hashtag}
@@ -138,7 +138,7 @@ export class TodoItem extends Component {
             </span>
             <span
               style={this.deleteBtnStyle()}
-              onClick={this.props.deleteTodo.bind(this, id)}
+              onClick={this.props.deleteTodo.bind(this, id, completed)}
             >
               <MDBIcon far icon="trash-alt" />
             </span>
