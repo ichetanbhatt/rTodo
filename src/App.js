@@ -316,7 +316,7 @@ class App extends Component {
                       value={this.state.searchTags}
                       onChange={this.handleTagsChange.bind(this, 0)}
                       inputProps={{
-                        placeholder: "Search"
+                        placeholder: "Search tags"
                       }}
                     />
                   </div>
