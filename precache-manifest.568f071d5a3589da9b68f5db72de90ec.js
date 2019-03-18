@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "b086b6500633f97c8b79",
-    "url": "/rTodo/static/css/main.78a6e187.chunk.css"
+    "revision": "cf46ea07afc07826ea08",
+    "url": "/rTodo/static/css/main.d5766e34.chunk.css"
   },
   {
-    "revision": "b086b6500633f97c8b79",
-    "url": "/rTodo/static/js/main.b3b30722.chunk.js"
+    "revision": "cf46ea07afc07826ea08",
+    "url": "/rTodo/static/js/main.529e8112.chunk.js"
   },
   {
     "revision": "1bd32c84af74648616f5",
     "url": "/rTodo/static/js/runtime~main.93102770.js"
   },
   {
-    "revision": "27a433c336f1c51944a4",
+    "revision": "3872ee9ddb62e8a1b9d5",
     "url": "/rTodo/static/css/2.26388103.chunk.css"
   },
   {
-    "revision": "27a433c336f1c51944a4",
-    "url": "/rTodo/static/js/2.09245aeb.chunk.js"
+    "revision": "3872ee9ddb62e8a1b9d5",
+    "url": "/rTodo/static/js/2.7337bd04.chunk.js"
   },
   {
     "revision": "65779ebcc35604a25c2ba77309c5b8af",
@@ -40,12 +40,12 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/fa-brands-400.4b115e11.woff2"
   },
   {
-    "revision": "462806316fea535a6a57651bc2b000b0",
-    "url": "/rTodo/static/media/fa-solid-900.46280631.woff2"
-  },
-  {
     "revision": "b90365bccdabd68c6c03902b4b141f09",
     "url": "/rTodo/static/media/fa-brands-400.b90365bc.woff"
+  },
+  {
+    "revision": "462806316fea535a6a57651bc2b000b0",
+    "url": "/rTodo/static/media/fa-solid-900.46280631.woff2"
   },
   {
     "revision": "61969d433bf265b9717a6c357a1e04e4",
@@ -64,12 +64,12 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/fa-regular-400.e7e957c8.svg"
   },
   {
-    "revision": "b70cea0339374107969eb53e5b1f603f",
-    "url": "/rTodo/static/media/fa-solid-900.b70cea03.ttf"
-  },
-  {
     "revision": "b5596f4d339f99e3d69bc41be78db962",
     "url": "/rTodo/static/media/fa-solid-900.b5596f4d.eot"
+  },
+  {
+    "revision": "b70cea0339374107969eb53e5b1f603f",
+    "url": "/rTodo/static/media/fa-solid-900.b70cea03.ttf"
   },
   {
     "revision": "80533988ff5fecd5be26557d08ce8237",
@@ -80,12 +80,12 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/fa-solid-900.82905d8d.svg"
   },
   {
-    "revision": "8ef6a08cdc1154920165680a4edde771",
-    "url": "/rTodo/static/media/arrow_right.8ef6a08c.svg"
-  },
-  {
     "revision": "11911410dca2de148f30954eb2fd5eab",
     "url": "/rTodo/static/media/arrow_left.11911410.svg"
+  },
+  {
+    "revision": "8ef6a08cdc1154920165680a4edde771",
+    "url": "/rTodo/static/media/arrow_right.8ef6a08c.svg"
   },
   {
     "revision": "dfe56a876d0282555d1e2458e278060f",
@@ -136,39 +136,39 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/Roboto-Light.3b813c2a.woff"
   },
   {
-    "revision": "ba3dcd8903e3d0af5de7792777f8ae0d",
-    "url": "/rTodo/static/media/Roboto-Regular.ba3dcd89.woff"
-  },
-  {
     "revision": "fc78759e93a6cac50458610e3d9d63a0",
     "url": "/rTodo/static/media/Roboto-Medium.fc78759e.woff"
+  },
+  {
+    "revision": "ba3dcd8903e3d0af5de7792777f8ae0d",
+    "url": "/rTodo/static/media/Roboto-Regular.ba3dcd89.woff"
   },
   {
     "revision": "dc81817def276b4f21395f7ea5e88dcd",
     "url": "/rTodo/static/media/Roboto-Bold.dc81817d.woff"
   },
   {
-    "revision": "46e48ce0628835f68a7369d0254e4283",
-    "url": "/rTodo/static/media/Roboto-Light.46e48ce0.ttf"
-  },
-  {
     "revision": "94998475f6aea65f558494802416c1cf",
     "url": "/rTodo/static/media/Roboto-Thin.94998475.ttf"
   },
   {
-    "revision": "df7b648ce5356ea1ebce435b3459fd60",
-    "url": "/rTodo/static/media/Roboto-Regular.df7b648c.ttf"
+    "revision": "46e48ce0628835f68a7369d0254e4283",
+    "url": "/rTodo/static/media/Roboto-Light.46e48ce0.ttf"
   },
   {
     "revision": "894a2ede85a483bf9bedefd4db45cdb9",
     "url": "/rTodo/static/media/Roboto-Medium.894a2ede.ttf"
   },
   {
+    "revision": "df7b648ce5356ea1ebce435b3459fd60",
+    "url": "/rTodo/static/media/Roboto-Regular.df7b648c.ttf"
+  },
+  {
     "revision": "e31fcf1885e371e19f5786c2bdfeae1b",
     "url": "/rTodo/static/media/Roboto-Bold.e31fcf18.ttf"
   },
   {
-    "revision": "efcc59408c2805be0b7151474f54bae5",
+    "revision": "368b76aefeaa888d47745a3f7912f2fb",
     "url": "/rTodo/index.html"
   }
 ];
