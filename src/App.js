@@ -75,7 +75,7 @@ class App extends Component {
         searching: true,
         searchArray: searchResult
       });
-      console.log(searchResult);
+      // console.log(searchResult);
     }
   };
 
@@ -90,7 +90,7 @@ class App extends Component {
   };
 
   deleteUpdateHashtags = (todoId, oldText, newText) => {
-    console.log(todoId, oldText, newText);
+    // console.log(todoId, oldText, newText);
     // Find hashtags in Old and New Hashtags
     let oldTags = this.extractHashtags(oldText);
     let newTags = this.extractHashtags(newText);
@@ -112,7 +112,7 @@ class App extends Component {
     // Remove Changed
     for (let tag of removeTags) {
       // let tagList = tempHashtagDict[tag];
-      console.log(tag);
+      // console.log(tag);
       tempHashtagDict[tag] = tempHashtagDict[tag].filter(
         todo => todo !== todoId
       );
@@ -123,7 +123,7 @@ class App extends Component {
 
     // Update Changed
     for (let tag of updateTags) {
-      console.log(tag);
+      // console.log(tag);
       let tagList = tempHashtagDict[tag];
       if (tempHashtagDict.hasOwnProperty(tag)) {
         tempHashtagDict[tag] = [...tagList, todoId];
@@ -132,7 +132,7 @@ class App extends Component {
       }
     }
 
-    console.log(tempHashtagDict);
+    // console.log(tempHashtagDict);
     this.setState({
       hashtagDict: tempHashtagDict
     });
@@ -143,7 +143,7 @@ class App extends Component {
 
   addTodo = title => {
     let hashtags = this.extractHashtags(title);
-    console.log(hashtags);
+    // console.log(hashtags);
 
     // Create New Todo
     const id = uuid();
@@ -163,7 +163,7 @@ class App extends Component {
     // Update HashtagDict
 
     for (let tag of hashtags) {
-      console.log(tag);
+      // console.log(tag);
       if (tempHashtagDict.hasOwnProperty(tag)) {
         //Append to list of Ids in Hashtag
         tempHashtagDict[tag].push(id);
@@ -203,7 +203,7 @@ class App extends Component {
   };
 
   deleteTodo = (id, status) => {
-    console.log(id, status);
+    // console.log(id, status);
     let tempTodosDict = Object.assign({}, this.state.todosDict);
     let todoTitle = tempTodosDict[id].title;
 
@@ -250,9 +250,9 @@ class App extends Component {
 
   toggleComplete = (id, status) => {
     let tempTodosDict = Object.assign({}, this.state.todosDict);
-    console.log(tempTodosDict[id]["completed"]);
+    // console.log0(tempTodosDict[id]["completed"]);
     tempTodosDict[id]["completed"] = !tempTodosDict[id]["completed"];
-    console.log(tempTodosDict[id]["completed"]);
+    // console.log(tempTodosDict[id]["completed"]);
 
     if (status) {
       let index = this.state.completedTodos.findIndex(todo => todo === id);
