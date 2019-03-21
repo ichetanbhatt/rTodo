@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "c4580f8ec3f2c313c516",
+    "revision": "0f170b06f62ccc1a2ab0",
     "url": "/rTodo/static/css/main.d5766e34.chunk.css"
   },
   {
-    "revision": "c4580f8ec3f2c313c516",
-    "url": "/rTodo/static/js/main.e1dde1db.chunk.js"
+    "revision": "0f170b06f62ccc1a2ab0",
+    "url": "/rTodo/static/js/main.c65808b5.chunk.js"
   },
   {
     "revision": "1bd32c84af74648616f5",
     "url": "/rTodo/static/js/runtime~main.93102770.js"
   },
   {
-    "revision": "727a6d1486c6ac45a8a5",
+    "revision": "60407365b8bebe806e4b",
     "url": "/rTodo/static/css/2.26388103.chunk.css"
   },
   {
-    "revision": "727a6d1486c6ac45a8a5",
-    "url": "/rTodo/static/js/2.98db7ff5.chunk.js"
+    "revision": "60407365b8bebe806e4b",
+    "url": "/rTodo/static/js/2.67ed1b68.chunk.js"
   },
   {
     "revision": "65779ebcc35604a25c2ba77309c5b8af",
@@ -52,12 +52,12 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/fa-solid-900.61969d43.woff"
   },
   {
-    "revision": "c39278f7abfc798a241551194f55e29f",
-    "url": "/rTodo/static/media/fa-brands-400.c39278f7.ttf"
-  },
-  {
     "revision": "d9d17590c975aad1be0ddab673f9c769",
     "url": "/rTodo/static/media/fa-brands-400.d9d17590.eot"
+  },
+  {
+    "revision": "c39278f7abfc798a241551194f55e29f",
+    "url": "/rTodo/static/media/fa-brands-400.c39278f7.ttf"
   },
   {
     "revision": "e7e957c87c454bccaa3bf9fdaa6874f8",
@@ -88,20 +88,20 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/arrow_right.8ef6a08c.svg"
   },
   {
-    "revision": "dfe56a876d0282555d1e2458e278060f",
-    "url": "/rTodo/static/media/Roboto-Thin.dfe56a87.eot"
-  },
-  {
     "revision": "a990f611f2305dc12965f186c2ef2690",
     "url": "/rTodo/static/media/Roboto-Light.a990f611.eot"
+  },
+  {
+    "revision": "4d9f3f9e5195e7b074bb63ba4ce42208",
+    "url": "/rTodo/static/media/Roboto-Medium.4d9f3f9e.eot"
   },
   {
     "revision": "30799efa5bf74129468ad4e257551dc3",
     "url": "/rTodo/static/media/Roboto-Regular.30799efa.eot"
   },
   {
-    "revision": "4d9f3f9e5195e7b074bb63ba4ce42208",
-    "url": "/rTodo/static/media/Roboto-Medium.4d9f3f9e.eot"
+    "revision": "dfe56a876d0282555d1e2458e278060f",
+    "url": "/rTodo/static/media/Roboto-Thin.dfe56a87.eot"
   },
   {
     "revision": "ecdd509cadbf1ea78b8d2e31ec52328c",
@@ -116,24 +116,16 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/Roboto-Light.69f8a061.woff2"
   },
   {
-    "revision": "574fd0b50367f886d359e8264938fc37",
-    "url": "/rTodo/static/media/Roboto-Medium.574fd0b5.woff2"
-  },
-  {
     "revision": "2751ee43015f9884c3642f103b7f70c9",
     "url": "/rTodo/static/media/Roboto-Regular.2751ee43.woff2"
   },
   {
+    "revision": "574fd0b50367f886d359e8264938fc37",
+    "url": "/rTodo/static/media/Roboto-Medium.574fd0b5.woff2"
+  },
+  {
     "revision": "39b2c3031be6b4ea96e2e3e95d307814",
     "url": "/rTodo/static/media/Roboto-Bold.39b2c303.woff2"
-  },
-  {
-    "revision": "7500519de3d82e33d1587f8042e2afcb",
-    "url": "/rTodo/static/media/Roboto-Thin.7500519d.woff"
-  },
-  {
-    "revision": "ba3dcd8903e3d0af5de7792777f8ae0d",
-    "url": "/rTodo/static/media/Roboto-Regular.ba3dcd89.woff"
   },
   {
     "revision": "3b813c2ae0d04909a33a18d792912ee7",
@@ -144,31 +136,39 @@ self.__precacheManifest = [
     "url": "/rTodo/static/media/Roboto-Medium.fc78759e.woff"
   },
   {
-    "revision": "dc81817def276b4f21395f7ea5e88dcd",
-    "url": "/rTodo/static/media/Roboto-Bold.dc81817d.woff"
+    "revision": "ba3dcd8903e3d0af5de7792777f8ae0d",
+    "url": "/rTodo/static/media/Roboto-Regular.ba3dcd89.woff"
   },
   {
-    "revision": "46e48ce0628835f68a7369d0254e4283",
-    "url": "/rTodo/static/media/Roboto-Light.46e48ce0.ttf"
+    "revision": "7500519de3d82e33d1587f8042e2afcb",
+    "url": "/rTodo/static/media/Roboto-Thin.7500519d.woff"
+  },
+  {
+    "revision": "dc81817def276b4f21395f7ea5e88dcd",
+    "url": "/rTodo/static/media/Roboto-Bold.dc81817d.woff"
   },
   {
     "revision": "94998475f6aea65f558494802416c1cf",
     "url": "/rTodo/static/media/Roboto-Thin.94998475.ttf"
   },
   {
-    "revision": "894a2ede85a483bf9bedefd4db45cdb9",
-    "url": "/rTodo/static/media/Roboto-Medium.894a2ede.ttf"
+    "revision": "46e48ce0628835f68a7369d0254e4283",
+    "url": "/rTodo/static/media/Roboto-Light.46e48ce0.ttf"
   },
   {
     "revision": "df7b648ce5356ea1ebce435b3459fd60",
     "url": "/rTodo/static/media/Roboto-Regular.df7b648c.ttf"
   },
   {
+    "revision": "894a2ede85a483bf9bedefd4db45cdb9",
+    "url": "/rTodo/static/media/Roboto-Medium.894a2ede.ttf"
+  },
+  {
     "revision": "e31fcf1885e371e19f5786c2bdfeae1b",
     "url": "/rTodo/static/media/Roboto-Bold.e31fcf18.ttf"
   },
   {
-    "revision": "a95dc1ce0aa4ef7b5ba2618572d8ceb8",
+    "revision": "68a5c587b85fa23cf3f46de50cfc6de9",
     "url": "/rTodo/index.html"
   }
 ];
