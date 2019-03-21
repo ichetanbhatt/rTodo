@@ -60,7 +60,7 @@ export class TodoItem extends Component {
   editingDone = event => {
     if (event.keyCode === 13) {
       if (!this.state.editedTitle.replace(/\s/g, "").length) {
-        this.props.deleteTodo(this.props.todoItem.id);
+        this.props.deleteTodo(this.props.todoItem.id, this.props.todoItem.completed);
       } else {
         this.props.editTodo(
           this.props.todoItem.id,
