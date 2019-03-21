@@ -116,6 +116,9 @@ class App extends Component {
       tempHashtagDict[tag] = tempHashtagDict[tag].filter(
         todo => todo !== todoId
       );
+      if (tempHashtagDict[tag].length == 0){
+        delete tempHashtagDict[tag]
+      }
     }
 
     // Update Changed
@@ -210,6 +213,9 @@ class App extends Component {
     // Delete TagsMapping from Deleted Todo
     for (let tag of tags) {
       tempHashtagDict[tag] = tempHashtagDict[tag].filter(todo => todo !== id);
+      if (tempHashtagDict[tag].length == 0){
+        delete tempHashtagDict[tag]
+      }
     }
 
     // Remove TODO from dict
