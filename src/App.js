@@ -116,8 +116,8 @@ class App extends Component {
       tempHashtagDict[tag] = tempHashtagDict[tag].filter(
         todo => todo !== todoId
       );
-      if (tempHashtagDict[tag].length == 0){
-        delete tempHashtagDict[tag]
+      if (tempHashtagDict[tag].length == 0) {
+        delete tempHashtagDict[tag];
       }
     }
 
@@ -203,7 +203,7 @@ class App extends Component {
   };
 
   deleteTodo = (id, status) => {
-    // console.log(id);
+    console.log(id, status);
     let tempTodosDict = Object.assign({}, this.state.todosDict);
     let todoTitle = tempTodosDict[id].title;
 
@@ -213,8 +213,8 @@ class App extends Component {
     // Delete TagsMapping from Deleted Todo
     for (let tag of tags) {
       tempHashtagDict[tag] = tempHashtagDict[tag].filter(todo => todo !== id);
-      if (tempHashtagDict[tag].length == 0){
-        delete tempHashtagDict[tag]
+      if (tempHashtagDict[tag].length == 0) {
+        delete tempHashtagDict[tag];
       }
     }
 
@@ -263,11 +263,13 @@ class App extends Component {
           ongoingTodos: [selectedTodo, ...this.state.ongoingTodos],
           completedTodos: [
             ...this.state.completedTodos.filter(todo => todo !== selectedTodo)
-          ]
+          ],
+          todosDict: tempTodosDict
         },
         () => {
           ls.set("ongoingTodos", this.state.ongoingTodos);
           ls.set("completedTodos", this.state.completedTodos);
+          ls.set("todosDict", this.state.todosDict);
           this.updateView();
         }
       );
@@ -280,11 +282,13 @@ class App extends Component {
           ongoingTodos: [
             ...this.state.ongoingTodos.filter(todo => todo !== selectedTodo)
           ],
-          completedTodos: [selectedTodo, ...this.state.completedTodos]
+          completedTodos: [selectedTodo, ...this.state.completedTodos],
+          todosDict: tempTodosDict
         },
         () => {
           ls.set("ongoingTodos", this.state.ongoingTodos);
           ls.set("completedTodos", this.state.completedTodos);
+          ls.set("todosDict", this.state.todosDict);
           this.updateView();
         }
       );
